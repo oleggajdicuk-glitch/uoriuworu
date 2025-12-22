@@ -1,226 +1,231 @@
+// server.js
+
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
-const axios = require('axios');
 const { spawn } = require('child_process');
-const fs = require('fs');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-// ⚙️ ВСТАВ СВОЇ ДАНІ!
-const TWITCH_CLIENT_ID = 'llel3d12hhsa02jebd4v7uwxz2iqfp';
-const TWITCH_CLIENT_SECRET = '006x37pk4fjmxpdwl9llg5w2bg7act';
-
-// Шлях до yt-dlp.exe
-const ytdlpPath = path.join(__dirname, 'yt-dlp.exe');
-
-// Папка для завантажених відео
-const DOWNLOADS_DIR = path.join(__dirname, 'downloads');
-if (!fs.existsSync(DOWNLOADS_DIR)) {
-  fs.mkdirSync(DOWNLOADS_DIR);
-}
-
-// ======= ТОКЕН =======
-let appAccessToken = null;
-let tokenExpiresAt = 0;
-
-async function getAppAccessToken() {
-  const now = Date.now();
-  if (appAccessToken && now < tokenExpiresAt - 60_000) {
-    return appAccessToken;
-  }
-
-  const resp = await axios.post('https://id.twitch.tv/oauth2/token', null, {
-    params: {
-      client_id: TWITCH_CLIENT_ID,
-      client_secret: TWITCH_CLIENT_SECRET,
-      grant_type: 'client_credentials'
-    }
-  });
-
-  appAccessToken = resp.data.access_token;
-  const expiresInMs = resp.data.expires_in * 1000;
-  tokenExpiresAt = now + expiresInMs;
-  return appAccessToken;
-}
-
-// Витягнути ID з URL
-function extractClipId(url) {
-  const m1 = url.match(/twitch\.tv\/\w+\/clip\/([\w-]+)/);
-  if (m1) return m1[1];
-  const m2 = url.match(/clips\.twitch\.tv\/([\w-]+)/);
-  if (m2) return m2[1];
-  return null;
-}
-
-function extractVideoId(url) {
-  const m = url.match(/twitch\.tv\/videos\/(\d+)/);
-  return m ? m[1] : null;
-}
-
-// ======= ЗАПИТИ ДО TWITCH API =======
-async function fetchClipInfo(clipId, token) {
-  const resp = await axios.get('https://api.twitch.tv/helix/clips', {
-    params: { id: clipId },
-    headers: {
-      'Client-Id': TWITCH_CLIENT_ID,
-      'Authorization': `Bearer ${token}`
-    }
-  });
-
-  if (!resp.data.data.length) {
-    throw new Error('Clip not found');
-  }
-
-  const clip = resp.data.data[0];
-
-  return {
-    type: 'clip',
-    title: clip.title,
-    author: clip.creator_name,
-    broadcaster: clip.broadcaster_name,
-    date: new Date(clip.created_at).toLocaleDateString('uk-UA'),
-    duration: '0:30',
-    description: `Кліп від ${clip.creator_name}`,
-    view_count: clip.view_count,
-    thumbnail_url: clip.thumbnail_url,
-    qualities: [
-      { name: '1080p60', size: '45 MB' },
-      { name: '720p60', size: '28 MB' },
-      { name: '480p', size: '12 MB' },
-      { name: '360p', size: '6 MB' }
-    ]
-  };
-}
-
-async function fetchVodInfo(videoId, token) {
-  const resp = await axios.get('https://api.twitch.tv/helix/videos', {
-    params: { id: videoId },
-    headers: {
-      'Client-Id': TWITCH_CLIENT_ID,
-      'Authorization': `Bearer ${token}`
-    }
-  });
-
-  if (!resp.data.data.length) {
-    throw new Error('VOD not found');
-  }
-
-  const v = resp.data.data[0];
-
-  return {
-    type: 'vod',
-    title: v.title,
-    author: v.user_name,
-    broadcaster: v.user_name,
-    date: new Date(v.created_at).toLocaleDateString('uk-UA'),
-    duration: v.duration,
-    description: v.description || `Запис стріму від ${v.user_name}`,
-    view_count: v.view_count,
-    thumbnail_url: v.thumbnail_url,
-    qualities: [
-      { name: '1080p', size: '2.5 GB' },
-      { name: '720p', size: '1.2 GB' },
-      { name: '480p', size: '600 MB' },
-      { name: '360p', size: '250 MB' }
-    ]
-  };
-}
-
-// ======= MIDDLEWARE =======
+// ==== базові налаштування ====
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// статичний фронтенд (папка public з index.html)
 app.use(express.static(path.join(__dirname, 'public')));
 
-// health‑check
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok' });
-});
+// порт для Render / Fly
+const PORT = process.env.PORT || 3000;
 
-// ======= /api/analyze =======
+// імʼя програми yt-dlp (ставиться через `pip install yt-dlp` в Build Command)
+const YTDLP = 'yt-dlp';
+
+// ===== helper: аналіз Twitch‑посилання через yt-dlp =====
+function analyzeTwitch(url) {
+  return new Promise((resolve, reject) => {
+    const args = [
+      '-J',           // JSON meta
+      '--no-warnings',
+      url,
+    ];
+
+    const child = spawn(YTDLP, args);
+
+    let json = '';
+    let err = '';
+
+    child.stdout.on('data', (d) => {
+      json += d.toString();
+    });
+
+    child.stderr.on('data', (d) => {
+      err += d.toString();
+      console.error('[yt-dlp analyze stderr]', d.toString());
+    });
+
+    child.on('error', (e) => {
+      console.error('[yt-dlp analyze error]', e);
+      reject(e);
+    });
+
+    child.on('close', (code) => {
+      if (code !== 0) {
+        return reject(
+          new Error('yt-dlp exited with code ' + code + ' ' + err)
+        );
+      }
+      try {
+        const data = JSON.parse(json);
+        resolve(data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  });
+}
+
+// ===== helper: сформувати список якостей =====
+function extractQualities(infoJson) {
+  // yt-dlp повертає або `formats`, або один формат
+  const formats = infoJson.formats || [];
+  const qualities = [];
+
+  for (const f of formats) {
+    if (!f.height && !f.abr) continue;
+
+    let name = '';
+    if (f.vcodec && f.vcodec !== 'none') {
+      name = `${f.height || ''}p`;
+      if (f.fps) name += `@${f.fps}fps`;
+    } else if (f.acodec && f.acodec !== 'none') {
+      name = 'Audio';
+    } else {
+      continue;
+    }
+
+    const sizeMb = f.filesize || f.filesize_approx || 0;
+    const sizeStr = sizeMb
+      ? (sizeMb / 1024 / 1024).toFixed(1) + ' MB'
+      : 'розмір невідомий';
+
+    qualities.push({
+      id: f.format_id,
+      name,
+      size: sizeStr,
+    });
+  }
+
+  // якщо порожньо – хоча б один best
+  if (!qualities.length) {
+    qualities.push({
+      id: 'best',
+      name: 'best',
+      size: 'невідомо',
+    });
+  }
+
+  return qualities;
+}
+
+// ===== /api/analyze =====
 app.post('/api/analyze', async (req, res) => {
   try {
-    const { url } = req.body;
-    if (!url || !url.includes('twitch.tv')) {
-      return res.status(400).json({ success: false, error: 'Введи правильний Twitch URL' });
+    const { url } = req.body || {};
+    if (!url || typeof url !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'No URL',
+      });
     }
 
-    const token = await getAppAccessToken();
+    const info = await analyzeTwitch(url);
 
-    const clipId = extractClipId(url);
-    const videoId = extractVideoId(url);
-
-    let data;
-    if (clipId) {
-      data = await fetchClipInfo(clipId, token);
-    } else if (videoId) {
-      data = await fetchVodInfo(videoId, token);
-    } else {
-      return res.status(400).json({ success: false, error: 'Не вдалось розпізнати, це кліп чи VOD' });
-    }
+    const data = {
+      title: info.title || '',
+      author:
+        (info.uploader || info.channel || info.author || '').toString(),
+      broadcaster: info.channel || '',
+      date: info.upload_date || info.release_date || '',
+      duration: info.duration
+        ? Math.round(info.duration) + ' сек.'
+        : '',
+      description: info.description || '',
+      qualities: extractQualities(info),
+    };
 
     res.json({ success: true, data });
   } catch (e) {
-    console.error(e);
-    res.status(500).json({ success: false, error: 'Помилка при запиті до Twitch' });
+    console.error('/api/analyze error', e);
+    res.status(500).json({
+      success: false,
+      error: 'Analyze failed: ' + e.message,
+    });
   }
 });
 
-// ======= /api/download – РЕАЛЬНЕ ЗАВАНТАЖЕННЯ через yt-dlp =======
-app.post('/api/download', async (req, res) => {
-  const { url, quality } = req.body;
-  if (!url || !quality) {
-    return res.status(400).json({ success: false, error: 'Потрібні url та quality' });
-  }
+// ===== helper: запуск yt-dlp для завантаження =====
+function streamDownload(url, formatId, res) {
+  const args = [
+    '-f',
+    formatId || 'best',
+    '-o',
+    '-',       // виводити в stdout
+    url,
+  ];
 
-  const timestamp = Date.now();
-  const outputFile = path.join(DOWNLOADS_DIR, `twitch_${timestamp}.mp4`);
+  const child = spawn(YTDLP, args);
 
-  let formatFilter = 'best';
-  if (quality.includes('1080')) formatFilter = 'best[height<=1080]';
-  else if (quality.includes('720')) formatFilter = 'best[height<=720]';
-  else if (quality.includes('480')) formatFilter = 'best[height<=480]';
-  else if (quality.includes('360')) formatFilter = 'best[height<=360]';
-
-  const ytdlp = spawn(ytdlpPath, [
-    '-f', formatFilter,
-    '-o', outputFile,
-    url
-  ]);
-
-  let errorOutput = '';
-
-  ytdlp.stderr.on('data', (data) => {
-    errorOutput += data.toString();
-    console.log('[yt-dlp]', data.toString());
+  child.stdout.on('data', (chunk) => {
+    res.write(chunk);
   });
 
-  ytdlp.on('close', (code) => {
-    if (code !== 0) {
-      console.error('yt-dlp error:', errorOutput);
-      return res.status(500).json({ 
-        success: false, 
-        error: 'Не вдалось завантажити відео з Twitch' 
-      });
-    }
+  child.stderr.on('data', (d) => {
+    console.error('[yt-dlp download stderr]', d.toString());
+  });
 
-    if (fs.existsSync(outputFile)) {
-      res.download(outputFile, `twitch_video_${quality}.mp4`, (err) => {
-        if (err) console.error(err);
-        // Видаляємо файл після завантаження
-        fs.unlinkSync(outputFile);
-      });
+  child.on('error', (err) => {
+    console.error('[yt-dlp download error]', err);
+    if (!res.headersSent) {
+      res.status(500).end('Download error');
     } else {
-      res.status(500).json({ success: false, error: 'Файл не знайдено' });
+      res.end();
     }
   });
+
+  child.on('close', (code) => {
+    if (code !== 0) {
+      console.error('yt-dlp exited with code', code);
+      if (!res.headersSent) {
+        res.status(500).end('yt-dlp failed with code ' + code);
+      } else {
+        res.end();
+      }
+    } else {
+      res.end();
+    }
+  });
+}
+
+// ===== /api/download =====
+app.post('/api/download', (req, res) => {
+  try {
+    const { url, quality } = req.body || {};
+
+    if (!url || typeof url !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'No URL',
+      });
+    }
+
+    const formatId = quality || 'best';
+
+    // заголовки для завантаження файлу
+    res.setHeader('Content-Type', 'video/mp4');
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="twitch_${formatId}.mp4"`
+    );
+
+    streamDownload(url, formatId, res);
+  } catch (e) {
+    console.error('/api/download error', e);
+    if (!res.headersSent) {
+      res.status(500).end('Download error: ' + e.message);
+    } else {
+      res.end();
+    }
+  }
 });
 
-// SPA fallback
+// ===== все решта віддаємо index.html (SPA) =====
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// ===== старт сервера =====
 app.listen(PORT, () => {
   console.log('🚀 Server on http://localhost:' + PORT);
 });
+
