@@ -4,18 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="meta.title">ClipsTwitch</title>
-
+    
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="shortcut icon" href="/favicon.png">
-
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="shortcut icon" href="favicon.png">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0e0e10 0%, #1a1a1e 100%);
+            color: #efeff1;
+            line-height: 1.6;
+            min-height: 100vh;
         }
 
         :root {
@@ -28,13 +36,6 @@
             --text: #ffffff;
             --text-secondary: #adadb8;
             --success: #31a24c;
-        }
-
-        body {
-            background: linear-gradient(135deg, var(--dark) 0%, #1a1a1e 100%);
-            color: var(--text);
-            line-height: 1.6;
-            min-height: 100vh;
         }
 
         .container {
@@ -106,11 +107,13 @@
             transition: width 0.3s;
         }
 
-        nav a:hover::after, nav a.active::after {
+        nav a:hover::after,
+        nav a.active::after {
             width: 100%;
         }
 
-        nav a:hover, nav a.active {
+        nav a:hover,
+        nav a.active {
             color: var(--primary);
         }
 
@@ -160,18 +163,36 @@
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .hero {
@@ -369,7 +390,9 @@
             flex-shrink: 0;
         }
 
-        .clip-details { flex: 1; }
+        .clip-details {
+            flex: 1;
+        }
 
         .clip-title {
             font-size: 22px;
@@ -629,7 +652,9 @@
             animation: spin 1s linear infinite;
         }
 
-        .spinner.show { display: block; }
+        .spinner.show {
+            display: block;
+        }
 
         @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -653,759 +678,789 @@
         }
 
         @media (max-width: 992px) {
-            .hero h1 { font-size: 40px; }
-            .hero p  { font-size: 18px; }
-            .downloader { padding: 30px; }
-            .content-section { padding: 30px; }
+            .hero h1 {
+                font-size: 40px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+
+            .downloader {
+                padding: 30px;
+            }
+
+            .content-section {
+                padding: 30px;
+            }
         }
 
         @media (max-width: 768px) {
-            .header-content { flex-wrap: wrap; }
-            nav { display: none; width: 100%; margin-top: 20px; }
-            nav.active { display: block; }
-            nav ul { flex-direction: column; gap: 15px; }
-            .mobile-menu-btn { display: block; }
-            .input-group { flex-direction: column; }
-            .input-group button { padding: 18px; }
-            .clip-info { flex-direction: column; }
-            .clip-thumbnail { width: 100%; height: 180px; }
-            .hero h1 { font-size: 32px; }
-            .hero p { font-size: 16px; }
-            .tabs-container { flex-direction: column; }
-            .tab-btn { width: 100%; }
+            .header-content {
+                flex-wrap: wrap;
+            }
+
+            nav {
+                display: none;
+                width: 100%;
+                margin-top: 20px;
+            }
+
+            nav.active {
+                display: block;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .input-group button {
+                padding: 18px;
+            }
+
+            .clip-info {
+                flex-direction: column;
+            }
+
+            .clip-thumbnail {
+                width: 100%;
+                height: 180px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .tabs-container {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-<header>
-    <div class="container header-content">
-        <div class="logo" onclick="showPage('home')" data-i18n="logo.title">
-            <i class="fab fa-twitch"></i>
-            ClipsTwitch
+    <header>
+        <div class="container header-content">
+            <div class="logo" onclick="showPage('home')" data-i18n="logo.title">
+                <i class="fab fa-twitch"></i>
+                ClipsTwitch
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav id="mainNav">
+                <ul>
+                    <li><a onclick="showPage('home')" class="active" data-page="home" data-i18n="nav.home"></a></li>
+                    <li><a onclick="showPage('about')" data-page="about" data-i18n="nav.about"></a></li>
+                    <li><a onclick="showPage('instructions')" data-page="instructions" data-i18n="nav.instructions"></a></li>
+                    <li><a onclick="showPage('faq')" data-page="faq" data-i18n="nav.faq">FAQ</a></li>
+                    <li><a onclick="showPage('contact')" data-page="contact" data-i18n="nav.contact"></a></li>
+                </ul>
+            </nav>
+
+            <div class="lang-switcher">
+                <button id="lang-uk" class="lang-btn active">UA</button>
+                <span style="color:#555">|</span>
+                <button id="lang-en" class="lang-btn">EN</button>
+            </div>
         </div>
+    </header>
 
-        <button class="mobile-menu-btn" id="mobileMenuBtn">
-            <i class="fas fa-bars"></i>
-        </button>
+    <main class="container">
+        <!-- HOME -->
+        <div id="page-home" class="page active">
+            <section class="hero">
+                <h1 data-i18n="hero.title">Завантажуйте VOD та кліпи з Twitch безкоштовно</h1>
+                <p data-i18n="hero.subtitle">Просто вставте посилання на VOD або кліп з Twitch та оберіть бажану якість відео для завантаження</p>
+            </section>
 
-        <nav id="mainNav">
-            <ul>
-                <li><a onclick="showPage('home')" class="active" data-page="home" data-i18n="nav.home">Головна</a></li>
-                <li><a onclick="showPage('about')" data-page="about" data-i18n="nav.about">Про нас</a></li>
-                <li><a onclick="showPage('instructions')" data-page="instructions" data-i18n="nav.instructions">Інструкція</a></li>
-                <li><a onclick="showPage('faq')" data-page="faq" data-i18n="nav.faq">FAQ</a></li>
-                <li><a onclick="showPage('contact')" data-page="contact" data-i18n="nav.contact">Контакти</a></li>
-            </ul>
-        </nav>
-
-        <div class="lang-switcher">
-            <button id="lang-uk" class="lang-btn active">UA</button>
-            <span style="color:#555;">|</span>
-            <button id="lang-en" class="lang-btn">EN</button>
-        </div>
-    </div>
-</header>
-
-<main class="container">
-    <!-- HOME -->
-    <div id="page-home" class="page active">
-        <section class="hero">
-            <h1 data-i18n="hero.title">Завантажуйте VOD та кліпи з Twitch безкоштовно</h1>
-            <p data-i18n="hero.subtitle">Просто вставте посилання на VOD або кліп з Twitch та оберіть бажану якість відео для завантаження</p>
-        </section>
-
-        <section class="downloader">
-            <div class="tabs-container">
-                <button class="tab-btn active" id="clipsTab">
-                    <i class="fas fa-film"></i> <span data-i18n="tab.clips">Кліпи</span>
-                </button>
-                <button class="tab-btn" id="vodTab">
-                    <i class="fas fa-video"></i> <span data-i18n="tab.vod">VOD</span>
-                </button>
-                <button class="tab-btn" id="bothTab">
-                    <i class="fas fa-play-circle"></i> <span data-i18n="tab.both">Обидва</span>
-                </button>
-            </div>
-
-            <div class="content-type-info" id="contentTypeInfo">
-                <i class="fas fa-info-circle"></i>
-                <span id="contentTypeText" data-i18n="info.clips">📹 Кліпи - це короткі нарізки зі стрімів (зазвичай до 1 хвилини)</span>
-            </div>
-
-            <h2 style="color: var(--text); margin-bottom: 20px; font-size: 24px;">
-                <span id="downloadTitle" data-i18n="download.title.clip">Завантажити кліп з Twitch</span>
-            </h2>
-
-            <div class="input-group">
-                <input type="text" id="clipUrl" data-i18n-placeholder="download.placeholder"
-                       placeholder="https://www.twitch.tv/streamer/clip/ExampleClipName або https://www.twitch.tv/videos/123456789">
-                <button id="downloadBtn">
-                    <i class="fas fa-search"></i> <span data-i18n="btn.analyze">Аналізувати</span>
-                </button>
-            </div>
-
-            <div class="spinner" id="loadingSpinner"></div>
-
-            <div class="success-message" id="successMessage">
-                <i class="fas fa-check-circle"></i>
-                <span id="successText"></span>
-            </div>
-
-            <div class="results" id="resultsSection">
-                <div class="results-header">
-                    <h3><i class="fas fa-download"></i> <span data-i18n="results.title">Доступні формати</span></h3>
-                    <button class="download-btn download-all-btn" id="downloadAllBtn">
-                        <i class="fas fa-cloud-download-alt"></i> <span data-i18n="btn.downloadAll">Завантажити всі</span>
+            <section class="downloader">
+                <div class="tabs-container">
+                    <button class="tab-btn active" id="clipsTab">
+                        <i class="fas fa-film"></i> <span data-i18n="tab.clips"></span>
+                    </button>
+                    <button class="tab-btn" id="vodTab">
+                        <i class="fas fa-video"></i> <span data-i18n="tab.vod">VOD</span>
+                    </button>
+                    <button class="tab-btn" id="bothTab">
+                        <i class="fas fa-play-circle"></i> <span data-i18n="tab.both"></span>
                     </button>
                 </div>
 
-                <div class="clip-info">
-                    <div class="clip-thumbnail">
-                        <i class="fas fa-play-circle"></i>
+                <div class="content-type-info" id="contentTypeInfo">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="contentTypeText" data-i18n="info.clips"></span>
+                </div>
+
+                <h2 style="color: var(--text); margin-bottom: 20px; font-size: 24px">
+                    <span id="downloadTitle" data-i18n="download.title.clip">Завантажити кліп з Twitch</span>
+                </h2>
+
+                <div class="input-group">
+                    <input type="text" id="clipUrl" data-i18n-placeholder="download.placeholder" placeholder="https://www.twitch.tv/streamer/clip/ExampleClipName">
+                    <button id="downloadBtn">
+                        <i class="fas fa-search"></i>
+                        <span data-i18n="btn.analyze"></span>
+                    </button>
+                </div>
+
+                <div class="spinner" id="loadingSpinner"></div>
+
+                <div class="success-message" id="successMessage">
+                    <i class="fas fa-check-circle"></i>
+                    <span id="successText"></span>
+                </div>
+
+                <div class="results" id="resultsSection">
+                    <div class="results-header">
+                        <h3><i class="fas fa-download"></i> <span data-i18n="results.title"></span></h3>
+                        <button class="download-btn download-all-btn" id="downloadAllBtn">
+                            <i class="fas fa-cloud-download-alt"></i>
+                            <span data-i18n="btn.downloadAll"></span>
+                        </button>
                     </div>
-                    <div class="clip-details">
-                        <h4 class="clip-title" id="clipTitle" data-i18n="clip.title.placeholder">Назва вмісту буде тут</h4>
-                        <div class="clip-meta">
-                            <span><i class="fas fa-user"></i> <span id="clipAuthor" data-i18n="clip.author">Автор</span></span>
-                            <span><i class="fas fa-calendar"></i> <span id="clipDate" data-i18n="clip.date">Дата</span></span>
-                            <span><i class="fas fa-clock"></i> <span id="clipDuration" data-i18n="clip.duration">Тривалість</span></span>
+
+                    <div class="clip-info">
+                        <div class="clip-thumbnail">
+                            <i class="fas fa-play-circle"></i>
                         </div>
-                        <p id="clipDescription" data-i18n="clip.description.placeholder">Опис вмісту буде тут</p>
+                        <div class="clip-details">
+                            <h4 class="clip-title" id="clipTitle" data-i18n="clip.title.placeholder"></h4>
+                            <div class="clip-meta">
+                                <span><i class="fas fa-user"></i> <span id="clipAuthor" data-i18n="clip.author"></span></span>
+                                <span><i class="fas fa-calendar"></i> <span id="clipDate" data-i18n="clip.date"></span></span>
+                                <span><i class="fas fa-clock"></i> <span id="clipDuration" data-i18n="clip.duration"></span></span>
+                            </div>
+                            <p id="clipDescription" data-i18n="clip.description.placeholder"></p>
+                        </div>
+                    </div>
+
+                    <div class="quality-options" id="qualityOptions"></div>
+                </div>
+
+                <div class="instructions">
+                    <h3><i class="fas fa-lightbulb"></i> <span data-i18n="instructions.title"></span></h3>
+                    <ol>
+                        <li data-i18n="instructions.step1"></li>
+                        <li data-i18n="instructions.step2"></li>
+                        <li data-i18n="instructions.step3"></li>
+                        <li data-i18n="instructions.step4"></li>
+                        <li data-i18n="instructions.step5"></li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="features">
+                <h2 data-i18n="features.title"></h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                        <h3 data-i18n="features.fast.title"></h3>
+                        <p data-i18n="features.fast.text"></p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3 data-i18n="features.safe.title"></h3>
+                        <p data-i18n="features.safe.text"></p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-video"></i></div>
+                        <h3 data-i18n="features.types.title">VOD і Clips</h3>
+                        <p data-i18n="features.types.text"></p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-desktop"></i></div>
+                        <h3 data-i18n="features.devices.title"></h3>
+                        <p data-i18n="features.devices.text"></p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-sliders-h"></i></div>
+                        <h3 data-i18n="features.quality.title"></h3>
+                        <p data-i18n="features.quality.text"></p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-tags"></i></div>
+                        <h3 data-i18n="features.free.title">100% Безкоштовно</h3>
+                        <p data-i18n="features.free.text"></p>
                     </div>
                 </div>
-
-                <div class="quality-options" id="qualityOptions"></div>
-            </div>
-
-            <div class="instructions">
-                <h3><i class="fas fa-lightbulb"></i> <span data-i18n="instructions.title">Як користуватися:</span></h3>
-                <ol>
-                    <li data-i18n="instructions.step1">Оберіть тип контенту (Кліп, VOD або Обидва) за допомогою кнопок вище</li>
-                    <li data-i18n="instructions.step2">Знайдіть потрібний контент на Twitch</li>
-                    <li data-i18n="instructions.step3">Скопіюйте URL-адресу з адресного рядка браузера</li>
-                    <li data-i18n="instructions.step4">Вставте посилання у поле вище та натисніть "Аналізувати"</li>
-                    <li data-i18n="instructions.step5">Оберіть бажану якість та натисніть "Завантажити"</li>
-                </ol>
-            </div>
-        </section>
-
-        <section class="features">
-            <h2 data-i18n="features.title">Наші переваги</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-bolt"></i></div>
-                    <h3 data-i18n="features.fast.title">Швидко і зручно</h3>
-                    <p data-i18n="features.fast.text">Миттєве завантаження кліпів та VOD без затримок і жодних обмежень</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
-                    <h3 data-i18n="features.safe.title">Захищено та безпечно</h3>
-                    <p data-i18n="features.safe.text">Не зберігаємо вашу особисту інформацію та історію завантажень</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-video"></i></div>
-                    <h3 data-i18n="features.types.title">VOD та Clips</h3>
-                    <p data-i18n="features.types.text">Підтримуємо завантаження як Twitch Clips так і повних VOD записів</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-desktop"></i></div>
-                    <h3 data-i18n="features.devices.title">На будь-яких пристроях</h3>
-                    <p data-i18n="features.devices.text">Працює на ПК, ноутбуках, планшетах та мобільних телефонах</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-sliders-h"></i></div>
-                    <h3 data-i18n="features.quality.title">Різні якості</h3>
-                    <p data-i18n="features.quality.text">Вибирайте з кількох варіантів якості від 360p до 1080p та вище</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-tags"></i></div>
-                    <h3 data-i18n="features.free.title">100% Безкоштовно</h3>
-                    <p data-i18n="features.free.text">Повністю безкоштовний сервіс без прихованих платежів чи реєстрації</p>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- ABOUT -->
-    <div id="page-about" class="page">
-        <div class="content-section">
-            <h2 data-i18n="about.title">Про нас</h2>
-            <p data-i18n="about.text1">Ми - команда ентузіастів, які створили найкращий безкоштовний інструмент для завантаження контенту з Twitch. Наша мета - зробити процес завантаження VOD та кліпів максимально простим і зручним.</p>
-            <h3 data-i18n="about.mission.title">Наша місія</h3>
-            <p data-i18n="about.mission.text">Надати користувачам можливість легко зберігати улюблені моменти зі стрімів без складних налаштувань та обмежень.</p>
-            <h3 data-i18n="about.why.title">Чому ми?</h3>
-            <ul>
-                <li data-i18n="about.why1">100% безкоштовно без прихованих платежів</li>
-                <li data-i18n="about.why2">Не потребує реєстрації</li>
-                <li data-i18n="about.why3">Швидке завантаження у високій якості</li>
-                <li data-i18n="about.why4">Підтримка як кліпів, так і повних VOD</li>
-                <li data-i18n="about.why5">Регулярні оновлення та покращення</li>
-            </ul>
+            </section>
         </div>
-    </div>
 
-    <!-- INSTRUCTIONS -->
-    <div id="page-instructions" class="page">
-        <div class="content-section">
-            <h2 data-i18n="pageInstructions.title">Детальна інструкція</h2>
-            <h3 data-i18n="pageInstructions.step1.title">Крок 1: Знайдіть контент на Twitch</h3>
-            <p data-i18n="pageInstructions.step1.text">Перейдіть на Twitch.tv та знайдіть кліп або VOD, який хочете завантажити. Відкрийте його на окремій сторінці.</p>
-
-            <h3 data-i18n="pageInstructions.step2.title">Крок 2: Скопіюйте посилання</h3>
-            <p data-i18n="pageInstructions.step2.text">Скопіюйте URL-адресу зі адресного рядка браузера. Посилання має виглядати як для кліпів або VOD.</p>
-
-            <h3 data-i18n="pageInstructions.step3.title">Крок 3: Вставте посилання</h3>
-            <p data-i18n="pageInstructions.step3.text">Вставте скопійоване посилання в поле на головній сторінці нашого сайту та натисніть кнопку "Аналізувати".</p>
-
-            <h3 data-i18n="pageInstructions.step4.title">Крок 4: Оберіть якість</h3>
-            <p data-i18n="pageInstructions.step4.text">Після аналізу з'являться доступні варіанти якості відео. Оберіть потрібну якість.</p>
-
-            <h3 data-i18n="pageInstructions.step5.title">Крок 5: Завантажте</h3>
-            <p data-i18n="pageInstructions.step5.text">Натисніть кнопку "Завантажити" біля обраної якості. Файл автоматично почне завантажуватися.</p>
-        </div>
-    </div>
-
-    <!-- FAQ -->
-    <div id="page-faq" class="page">
-        <div class="content-section">
-            <h2 data-i18n="faq.title">Часті питання (FAQ)</h2>
-
-            <h3 data-i18n="faq.q1">Чи це безкоштовно?</h3>
-            <p data-i18n="faq.a1">Так, наш сервіс повністю безкоштовний. Ми не стягуємо плату за завантаження.</p>
-
-            <h3 data-i18n="faq.q2">Чи потрібна реєстрація?</h3>
-            <p data-i18n="faq.a2">Ні, реєстрація не потрібна. Просто вставте посилання та завантажуйте.</p>
-
-            <h3 data-i18n="faq.q3">Які формати відео підтримуються?</h3>
-            <p data-i18n="faq.a3">Ми завантажуємо відео у форматі MP4, який підтримується більшістю пристроїв.</p>
-
-            <h3 data-i18n="faq.q4">Чому завантаження займає багато часу?</h3>
-            <p data-i18n="faq.a4">Час залежить від розміру файлу та швидкості вашого інтернету.</p>
-
-            <h3 data-i18n="faq.q5">Що робити, якщо посилання не працює?</h3>
-            <p data-i18n="faq.a5">Переконайтеся, що посилання повне і відео доступне публічно.</p>
-        </div>
-    </div>
-
-    <!-- CONTACT -->
-    <div id="page-contact" class="page">
-        <div class="content-section">
-            <h2 data-i18n="contact.title">Контакти</h2>
-            <p data-i18n="contact.text1">Маєте питання, пропозиції або знайшли помилку в ClipsTwitch? Зв'яжіться з нами!</p>
-
-            <h3 data-i18n="contact.email.title">Email</h3>
-            <p><i class="fas fa-envelope"></i> support@twitchvod.pro</p>
-
-            <h3 data-i18n="contact.social.title">Соціальні мережі</h3>
-            <p>
-                <i class="fab fa-twitter"></i> Twitter: @ClipsTwitch<br>
-                <i class="fab fa-telegram"></i> Telegram: @ClipsTwitchSupport<br>
-                <i class="fab fa-github"></i> GitHub: github.com/clipstwitch
-            </p>
-        </div>
-    </div>
-</main>
-
-<footer>
-    <div class="container">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3 data-i18n="footer.title">ClipsTwitch</h3>
-                <p data-i18n="footer.text">Найкращий безкоштовний інструмент для завантаження кліпів та VOD з Twitch.</p>
-            </div>
-            <div class="footer-column">
-                <h3 data-i18n="footer.menu">Меню</h3>
+        <!-- ABOUT -->
+        <div id="page-about" class="page">
+            <div class="content-section">
+                <h2 data-i18n="about.title"></h2>
+                <p data-i18n="about.text1"></p>
+                <h3 data-i18n="about.mission.title"></h3>
+                <p data-i18n="about.mission.text"></p>
+                <h3 data-i18n="about.why.title"></h3>
                 <ul>
-                    <li><a onclick="showPage('home')" data-i18n="nav.home">Головна</a></li>
-                    <li><a onclick="showPage('about')" data-i18n="nav.about">Про нас</a></li>
-                    <li><a onclick="showPage('instructions')" data-i18n="nav.instructions">Інструкція</a></li>
-                    <li><a onclick="showPage('faq')" data-i18n="nav.faq">FAQ</a></li>
-                    <li><a onclick="showPage('contact')" data-i18n="nav.contact">Контакти</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3 data-i18n="footer.support">Підтримка</h3>
-                <ul>
-                    <li><a onclick="showPage('instructions')" data-i18n="footer.help">Допомога</a></li>
-                    <li><a onclick="showPage('faq')" data-i18n="footer.faq">FAQ</a></li>
-                    <li><a onclick="showPage('contact')" data-i18n="footer.report">Повідомити про проблему</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3 data-i18n="contact.title">Контакти</h3>
-                <ul>
-                    <li><a><i class="fas fa-envelope"></i> support@twitchvod.pro</a></li>
-                    <li><a><i class="fab fa-twitter"></i> Twitter</a></li>
-                    <li><a><i class="fab fa-telegram"></i> Telegram</a></li>
-                    <li><a><i class="fab fa-github"></i> GitHub</a></li>
+                    <li data-i18n="about.why1"></li>
+                    <li data-i18n="about.why2"></li>
+                    <li data-i18n="about.why3"></li>
+                    <li data-i18n="about.why4"></li>
+                    <li data-i18n="about.why5"></li>
                 </ul>
             </div>
         </div>
-        <div class="copyright">
-            <p>&copy; 2025 ClipsTwitch.</p>
+
+        <!-- INSTRUCTIONS -->
+        <div id="page-instructions" class="page">
+            <div class="content-section">
+                <h2 data-i18n="pageInstructions.title"></h2>
+                <h3 data-i18n="pageInstructions.step1.title"></h3>
+                <p data-i18n="pageInstructions.step1.text"></p>
+                <h3 data-i18n="pageInstructions.step2.title"></h3>
+                <p data-i18n="pageInstructions.step2.text"></p>
+                <h3 data-i18n="pageInstructions.step3.title"></h3>
+                <p data-i18n="pageInstructions.step3.text"></p>
+                <h3 data-i18n="pageInstructions.step4.title"></h3>
+                <p data-i18n="pageInstructions.step4.text"></p>
+                <h3 data-i18n="pageInstructions.step5.title"></h3>
+                <p data-i18n="pageInstructions.step5.text"></p>
+            </div>
         </div>
-    </div>
-</footer>
 
-<script>
-    const translations = {
-        uk: {
-            'meta.title': 'ClipsTwitch',
-            'logo.title': 'ClipsTwitch',
-            'nav.home': 'Головна',
-            'nav.about': 'Про нас',
-            'nav.instructions': 'Інструкція',
-            'nav.faq': 'FAQ',
-            'nav.contact': 'Контакти',
+        <!-- FAQ -->
+        <div id="page-faq" class="page">
+            <div class="content-section">
+                <h2 data-i18n="faq.title">FAQ</h2>
+                <h3 data-i18n="faq.q1"></h3>
+                <p data-i18n="faq.a1"></p>
+                <h3 data-i18n="faq.q2"></h3>
+                <p data-i18n="faq.a2"></p>
+                <h3 data-i18n="faq.q3"></h3>
+                <p data-i18n="faq.a3"></p>
+                <h3 data-i18n="faq.q4"></h3>
+                <p data-i18n="faq.a4"></p>
+                <h3 data-i18n="faq.q5"></h3>
+                <p data-i18n="faq.a5"></p>
+            </div>
+        </div>
 
-            'hero.title': 'Завантажуйте VOD та кліпи з Twitch безкоштовно',
-            'hero.subtitle': 'Просто вставте посилання на VOD або кліп з Twitch та оберіть бажану якість відео для завантаження',
+        <!-- CONTACT -->
+        <div id="page-contact" class="page">
+            <div class="content-section">
+                <h2 data-i18n="contact.title"></h2>
+                <p data-i18n="contact.text1"></p>
+                <h3 data-i18n="contact.email.title">Email</h3>
+                <p><i class="fas fa-envelope"></i> support@twitchvod.pro</p>
+                <h3 data-i18n="contact.social.title"></h3>
+                <p>
+                    <i class="fab fa-twitter"></i> Twitter: @ClipsTwitch<br>
+                    <i class="fab fa-telegram"></i> Telegram: @ClipsTwitchSupport<br>
+                    <i class="fab fa-github"></i> GitHub: github.com/clipstwitch
+                </p>
+            </div>
+        </div>
+    </main>
 
-            'tab.clips': 'Кліпи',
-            'tab.vod': 'VOD',
-            'tab.both': 'Обидва',
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3 data-i18n="footer.title">ClipsTwitch</h3>
+                    <p data-i18n="footer.text"></p>
+                </div>
+                <div class="footer-column">
+                    <h3 data-i18n="footer.menu"></h3>
+                    <ul>
+                        <li><a onclick="showPage('home')" data-i18n="nav.home"></a></li>
+                        <li><a onclick="showPage('about')" data-i18n="nav.about"></a></li>
+                        <li><a onclick="showPage('instructions')" data-i18n="nav.instructions"></a></li>
+                        <li><a onclick="showPage('faq')" data-i18n="nav.faq">FAQ</a></li>
+                        <li><a onclick="showPage('contact')" data-i18n="nav.contact"></a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 data-i18n="footer.support"></h3>
+                    <ul>
+                        <li><a onclick="showPage('instructions')" data-i18n="footer.help"></a></li>
+                        <li><a onclick="showPage('faq')" data-i18n="footer.faq">FAQ</a></li>
+                        <li><a onclick="showPage('contact')" data-i18n="footer.report"></a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 data-i18n="contact.title"></h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> support@twitchvod.pro</li>
+                        <li><i class="fab fa-twitter"></i> Twitter</li>
+                        <li><i class="fab fa-telegram"></i> Telegram</li>
+                        <li><i class="fab fa-github"></i> GitHub</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 ClipsTwitch.</p>
+            </div>
+        </div>
+    </footer>
 
-            'info.clips': '📹 Кліпи - це короткі нарізки зі стрімів (зазвичай до 1 хвилини)',
-            'info.vod': '🎥 VOD - це записи повних стрімів (від кількох хвилин до кількох годин)',
-            'info.both': '🎬 Можна завантажувати як кліпи, так і VOD записи - сервіс автоматично розпізнає тип контенту',
-
-            'download.title.clip': 'Завантажити кліп з Twitch',
-            'download.title.vod': 'Завантажити VOD з Twitch',
-            'download.title.both': 'Завантажити кліп або VOD з Twitch',
-            'download.placeholder': 'https://www.twitch.tv/streamer/clip/ExampleClipName або https://www.twitch.tv/videos/123456789',
-
-            'btn.analyze': 'Аналізувати',
-            'results.title': 'Доступні формати',
-            'btn.downloadAll': 'Завантажити всі',
-
-            'clip.title.placeholder': 'Назва вмісту буде тут',
-            'clip.author': 'Автор',
-            'clip.date': 'Дата',
-            'clip.duration': 'Тривалість',
-            'clip.description.placeholder': 'Опис вмісту буде тут',
-
-            'instructions.title': 'Як користуватися:',
-            'instructions.step1': 'Оберіть тип контенту (Кліп, VOD або Обидва) за допомогою кнопок вище',
-            'instructions.step2': 'Знайдіть потрібний контент на Twitch',
-            'instructions.step3': 'Скопіюйте URL-адресу з адресного рядка браузера',
-            'instructions.step4': 'Вставте посилання у поле вище та натисніть "Аналізувати"',
-            'instructions.step5': 'Оберіть бажану якість та натисніть "Завантажити"',
-
-            'features.title': 'Наші переваги',
-            'features.fast.title': 'Швидко і зручно',
-            'features.fast.text': 'Миттєве завантаження кліпів та VOD без затримок і жодних обмежень',
-            'features.safe.title': 'Захищено та безпечно',
-            'features.safe.text': 'Не зберігаємо вашу особисту інформацію та історію завантажень',
-            'features.types.title': 'VOD та Clips',
-            'features.types.text': 'Підтримуємо завантаження як Twitch Clips так і повних VOD записів',
-            'features.devices.title': 'На будь-яких пристроях',
-            'features.devices.text': 'Працює на ПК, ноутбуках, планшетах та мобільних телефонах',
-            'features.quality.title': 'Різні якості',
-            'features.quality.text': 'Вибирайте з кількох варіантів якості від 360p до 1080p та вище',
-            'features.free.title': '100% Безкоштовно',
-            'features.free.text': 'Повністю безкоштовний сервіс без прихованих платежів чи реєстрації',
-
-            'about.title': 'Про нас',
-            'about.text1': 'Ми - команда ентузіастів, які створили найкращий безкоштовний інструмент для завантаження контенту з Twitch. Наша мета - зробити процес завантаження VOD та кліпів максимально простим і зручним.',
-            'about.mission.title': 'Наша місія',
-            'about.mission.text': 'Надати користувачам можливість легко зберігати улюблені моменти зі стрімів без складних налаштувань та обмежень.',
-            'about.why.title': 'Чому ми?',
-            'about.why1': '100% безкоштовно без прихованих платежів',
-            'about.why2': 'Не потребує реєстрації',
-            'about.why3': 'Швидке завантаження у високій якості',
-            'about.why4': 'Підтримка як кліпів, так і повних VOD',
-            'about.why5': 'Регулярні оновлення та покращення',
-
-            'pageInstructions.title': 'Детальна інструкція',
-            'pageInstructions.step1.title': 'Крок 1: Знайдіть контент на Twitch',
-            'pageInstructions.step1.text': 'Перейдіть на Twitch.tv та знайдіть кліп або VOD, який хочете завантажити. Відкрийте його на окремій сторінці.',
-            'pageInstructions.step2.title': 'Крок 2: Скопіюйте посилання',
-            'pageInstructions.step2.text': 'Скопіюйте URL-адресу зі адресного рядка браузера. Посилання має виглядати як для кліпів або VOD.',
-            'pageInstructions.step3.title': 'Крок 3: Вставте посилання',
-            'pageInstructions.step3.text': 'Вставте скопійоване посилання в поле на головній сторінці нашого сайту та натисніть кнопку "Аналізувати".',
-            'pageInstructions.step4.title': 'Крок 4: Оберіть якість',
-            'pageInstructions.step4.text': 'Після аналізу з\'являться доступні варіанти якості відео. Оберіть потрібну якість.',
-            'pageInstructions.step5.title': 'Крок 5: Завантажте',
-            'pageInstructions.step5.text': 'Натисніть кнопку "Завантажити" біля обраної якості. Файл автоматично почне завантажуватися.',
-
-            'faq.title': 'Часті питання (FAQ)',
-            'faq.q1': 'Чи це безкоштовно?',
-            'faq.a1': 'Так, наш сервіс повністю безкоштовний. Ми не стягуємо плату за завантаження.',
-            'faq.q2': 'Чи потрібна реєстрація?',
-            'faq.a2': 'Ні, реєстрація не потрібна. Просто вставте посилання та завантажуйте.',
-            'faq.q3': 'Які формати відео підтримуються?',
-            'faq.a3': 'Ми завантажуємо відео у форматі MP4, який підтримується більшістю пристроїв.',
-            'faq.q4': 'Чому завантаження займає багато часу?',
-            'faq.a4': 'Час залежить від розміру файлу та швидкості вашого інтернету.',
-            'faq.q5': 'Що робити, якщо посилання не працює?',
-            'faq.a5': 'Переконайтеся, що посилання повне і відео доступне публічно.',
-
-            'contact.title': 'Контакти',
-            'contact.text1': 'Маєте питання, пропозиції або знайшли помилку в ClipsTwitch? Зв\'яжіться з нами!',
-            'contact.email.title': 'Email',
-            'contact.social.title': 'Соціальні мережі',
-
-            'footer.title': 'ClipsTwitch',
-            'footer.text': 'Найкращий безкоштовний інструмент для завантаження кліпів та VOD з Twitch.',
-            'footer.menu': 'Меню',
-            'footer.support': 'Підтримка',
-            'footer.help': 'Допомога',
-            'footer.faq': 'FAQ',
-            'footer.report': 'Повідомити про проблему'
-        },
-        en: {
-            'meta.title': 'ClipsTwitch',
-            'logo.title': 'ClipsTwitch',
-            'nav.home': 'Home',
-            'nav.about': 'About',
-            'nav.instructions': 'Guide',
-            'nav.faq': 'FAQ',
-            'nav.contact': 'Contacts',
-
-            'hero.title': 'Download Twitch VODs and Clips for Free',
-            'hero.subtitle': 'Just paste a Twitch VOD or clip link and choose the video quality you want to download',
-
-            'tab.clips': 'Clips',
-            'tab.vod': 'VOD',
-            'tab.both': 'Both',
-
-            'info.clips': '📹 Clips are short highlights from streams (usually up to 1 minute)',
-            'info.vod': '🎥 VODs are full stream recordings (from minutes to several hours)',
-            'info.both': '🎬 You can download both clips and VODs – the service detects the type automatically',
-
-            'download.title.clip': 'Download Twitch Clip',
-            'download.title.vod': 'Download Twitch VOD',
-            'download.title.both': 'Download Twitch Clip or VOD',
-            'download.placeholder': 'https://www.twitch.tv/streamer/clip/ExampleClipName or https://www.twitch.tv/videos/123456789',
-
-            'btn.analyze': 'Analyze',
-            'results.title': 'Available formats',
-            'btn.downloadAll': 'Download all',
-
-            'clip.title.placeholder': 'Content title will be here',
-            'clip.author': 'Author',
-            'clip.date': 'Date',
-            'clip.duration': 'Duration',
-            'clip.description.placeholder': 'Content description will be here',
-
-            'instructions.title': 'How to use:',
-            'instructions.step1': 'Choose content type (Clip, VOD or Both) using the buttons above',
-            'instructions.step2': 'Find required content on Twitch',
-            'instructions.step3': 'Copy the URL from the browser address bar',
-            'instructions.step4': 'Paste the link into the field above and click "Analyze"',
-            'instructions.step5': 'Choose the quality and click "Download"',
-
-            'features.title': 'Our advantages',
-            'features.fast.title': 'Fast and easy',
-            'features.fast.text': 'Instant downloading of clips and VODs without delays or limits',
-            'features.safe.title': 'Secure and private',
-            'features.safe.text': 'We do not store your personal data or download history',
-            'features.types.title': 'VODs and Clips',
-            'features.types.text': 'Supports downloading Twitch clips and full VOD recordings',
-            'features.devices.title': 'Any devices',
-            'features.devices.text': 'Works on PCs, laptops, tablets and smartphones',
-            'features.quality.title': 'Different qualities',
-            'features.quality.text': 'Choose from multiple quality options from 360p to 1080p and higher',
-            'features.free.title': '100% Free',
-            'features.free.text': 'Completely free service without hidden fees or registration',
-
-            'about.title': 'About us',
-            'about.text1': 'We are a small team that created a free tool for downloading content from Twitch. Our goal is to make downloading VODs and clips as simple as possible.',
-            'about.mission.title': 'Our mission',
-            'about.mission.text': 'Give users an easy way to save their favorite stream moments.',
-            'about.why.title': 'Why us?',
-            'about.why1': '100% free with no hidden payments',
-            'about.why2': 'No registration required',
-            'about.why3': 'Fast downloads in high quality',
-            'about.why4': 'Supports both clips and full VODs',
-            'about.why5': 'Regular updates and improvements',
-
-            'pageInstructions.title': 'Detailed guide',
-            'pageInstructions.step1.title': 'Step 1: Find content on Twitch',
-            'pageInstructions.step1.text': 'Go to Twitch.tv and open the clip or VOD you want to download.',
-            'pageInstructions.step2.title': 'Step 2: Copy the link',
-            'pageInstructions.step2.text': 'Copy the URL from the browser address bar. The link should look like for clips or VODs.',
-            'pageInstructions.step3.title': 'Step 3: Paste the link',
-            'pageInstructions.step3.text': 'Paste the copied link into the field on the main page and click "Analyze".',
-            'pageInstructions.step4.title': 'Step 4: Choose quality',
-            'pageInstructions.step4.text': 'After analysis you will see available quality options. Select the one you need.',
-            'pageInstructions.step5.title': 'Step 5: Download',
-            'pageInstructions.step5.text': 'Click "Download" next to the chosen quality. The file will start downloading automatically.',
-
-            'faq.title': 'Frequently asked questions (FAQ)',
-            'faq.q1': 'Is it free?',
-            'faq.a1': 'Yes, our service is completely free. We do not charge for downloads.',
-            'faq.q2': 'Do I need to register?',
-            'faq.a2': 'No, registration is not required. Just paste the link and download.',
-            'faq.q3': 'Which video formats are supported?',
-            'faq.a3': 'Videos are downloaded in MP4 format, which is supported by most devices.',
-            'faq.q4': 'Why does download take a long time?',
-            'faq.a4': 'Time depends on the file size and your internet speed.',
-            'faq.q5': 'What if the link does not work?',
-            'faq.a5': 'Make sure the link is complete and the video is publicly available.',
-
-            'contact.title': 'Contacts',
-            'contact.text1': 'Have questions, suggestions or found a bug in ClipsTwitch? Contact us!',
-            'contact.email.title': 'Email',
-            'contact.social.title': 'Social networks',
-
-            'footer.title': 'ClipsTwitch',
-            'footer.text': 'The best free tool for downloading Twitch clips and VODs.',
-            'footer.menu': 'Menu',
-            'footer.support': 'Support',
-            'footer.help': 'Help',
-            'footer.faq': 'FAQ',
-            'footer.report': 'Report a problem'
-        }
-    };
-
-    let currentLang = localStorage.getItem('lang') || 'uk';
-
-    function applyTranslations() {
-        const dict = translations[currentLang];
-        document.documentElement.lang = currentLang;
-        if (dict['meta.title']) document.title = dict['meta.title'];
-
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-            const key = el.getAttribute('data-i18n');
-            if (dict[key]) el.textContent = dict[key];
-        });
-
-        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-            const key = el.getAttribute('data-i18n-placeholder');
-            if (dict[key]) el.placeholder = dict[key];
-        });
-
-        document.getElementById('lang-uk').classList.toggle('active', currentLang === 'uk');
-        document.getElementById('lang-en').classList.toggle('active', currentLang === 'en');
-    }
-
-    function setLang(lang) {
-        currentLang = lang;
-        localStorage.setItem('lang', lang);
-        applyTranslations();
-        updateTab(currentTab);
-    }
-
-    function showPage(pageName) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('page-' + pageName).classList.add('active');
-
-        document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-        document.querySelectorAll(`nav a[data-page="${pageName}"]`).forEach(a => a.classList.add('active'));
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        document.getElementById('mainNav').classList.remove('active');
-        document.getElementById('mobileMenuBtn').innerHTML = '<i class="fas fa-bars"></i>';
-    }
-
-    let currentTab = 'clips';
-
-    function updateTab(tabType) {
-        currentTab = tabType;
-
-        clipsTab.classList.remove('active');
-        vodTab.classList.remove('active');
-        bothTab.classList.remove('active');
-        contentTypeInfo.classList.add('show');
-
-        if (tabType === 'clips') {
-            clipsTab.classList.add('active');
-            downloadTitle.textContent = translations[currentLang]['download.title.clip'];
-            contentTypeText.textContent = translations[currentLang]['info.clips'];
-        } else if (tabType === 'vod') {
-            vodTab.classList.add('active');
-            downloadTitle.textContent = translations[currentLang]['download.title.vod'];
-            contentTypeText.textContent = translations[currentLang]['info.vod'];
-        } else {
-            bothTab.classList.add('active');
-            downloadTitle.textContent = translations[currentLang]['download.title.both'];
-            contentTypeText.textContent = translations[currentLang]['info.both'];
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mainNav = document.getElementById('mainNav');
-
-        mobileMenuBtn.addEventListener('click', function () {
-            mainNav.classList.toggle('active');
-            mobileMenuBtn.innerHTML = mainNav.classList.contains('active')
-                ? '<i class="fas fa-times"></i>'
-                : '<i class="fas fa-bars"></i>';
-        });
-
-        window.clipsTab = document.getElementById('clipsTab');
-        window.vodTab = document.getElementById('vodTab');
-        window.bothTab = document.getElementById('bothTab');
-        window.contentTypeInfo = document.getElementById('contentTypeInfo');
-        window.contentTypeText = document.getElementById('contentTypeText');
-        window.downloadTitle = document.getElementById('downloadTitle');
-        const clipUrlInput = document.getElementById('clipUrl');
-
-        clipsTab.addEventListener('click', () => updateTab('clips'));
-        vodTab.addEventListener('click', () => updateTab('vod'));
-        bothTab.addEventListener('click', () => updateTab('both'));
-
-        const downloadBtn = document.getElementById('downloadBtn');
-        const loadingSpinner = document.getElementById('loadingSpinner');
-        const resultsSection = document.getElementById('resultsSection');
-        const qualityOptions = document.getElementById('qualityOptions');
-        const downloadAllBtn = document.getElementById('downloadAllBtn');
-        const successMessage = document.getElementById('successMessage');
-        const successText = document.getElementById('successText');
-
-        const clipTitle = document.getElementById('clipTitle');
-        const clipAuthor = document.getElementById('clipAuthor');
-        const clipDate = document.getElementById('clipDate');
-        const clipDuration = document.getElementById('clipDuration');
-        const clipDescription = document.getElementById('clipDescription');
-
-        function showSuccessMessage(message) {
-            successText.textContent = message;
-            successMessage.classList.add('show');
-            setTimeout(() => successMessage.classList.remove('show'), 4000);
-        }
-
-        function showError(msg) {
-            alert(msg);
-        }
-
-        downloadBtn.addEventListener('click', async function () {
-            const url = clipUrlInput.value.trim();
-            if (!url) {
-                showError(currentLang === 'uk'
-                    ? 'Будь ласка, введіть посилання на кліп або VOD'
-                    : 'Please enter a Twitch clip or VOD URL');
-                return;
+    <script>
+        const translations = {
+            uk: {
+                'meta.title': 'ClipsTwitch',
+                'logo.title': 'ClipsTwitch',
+                'nav.home': 'Головна',
+                'nav.about': 'Про нас',
+                'nav.instructions': 'Інструкція',
+                'nav.faq': 'FAQ',
+                'nav.contact': 'Контакти',
+                'hero.title': 'Завантажуйте VOD та кліпи з Twitch безкоштовно',
+                'hero.subtitle': 'Просто вставте посилання на VOD або кліп з Twitch та оберіть бажану якість відео для завантаження',
+                'tab.clips': 'Кліпи',
+                'tab.vod': 'VOD',
+                'tab.both': 'Обидва',
+                'info.clips': 'Кліпи - це короткі яскраві моменти зі стрімів, як правило до 1 хвилини',
+                'info.vod': 'VOD - це повні записи стрімів, від хвилин до декількох годин',
+                'info.both': 'Ви можете завантажити як кліпи так і VOD - сервіс визначить тип автоматично',
+                'download.title.clip': 'Завантажити кліп з Twitch',
+                'download.title.vod': 'Завантажити VOD з Twitch',
+                'download.title.both': 'Завантажити кліп або VOD з Twitch',
+                'download.placeholder': 'https://www.twitch.tv/streamer/clip/ExampleClipName або https://www.twitch.tv/videos/123456789',
+                'btn.analyze': 'Аналізувати',
+                'results.title': 'Доступні формати',
+                'btn.downloadAll': 'Завантажити все',
+                'clip.title.placeholder': 'Назва вмісту буде тут',
+                'clip.author': 'Автор',
+                'clip.date': 'Дата',
+                'clip.duration': 'Тривалість',
+                'clip.description.placeholder': 'Опис вмісту буде тут',
+                'instructions.title': 'Як користуватися:',
+                'instructions.step1': 'Оберіть тип контенту (Кліп, VOD або Обидва) за допомогою кнопок вище',
+                'instructions.step2': 'Знайдіть потрібний контент на Twitch',
+                'instructions.step3': 'Скопіюйте URL-адресу з адресного рядка браузера',
+                'instructions.step4': 'Вставте посилання у поле вище та натисніть "Аналізувати"',
+                'instructions.step5': 'Оберіть бажану якість та натисніть "Завантажити"',
+                'features.title': 'Наші переваги',
+                'features.fast.title': 'Швидко і зручно',
+                'features.fast.text': 'Миттєве завантаження кліпів та VOD без затримок і жодних обмежень',
+                'features.safe.title': 'Захищено та безпечно',
+                'features.safe.text': 'Не зберігаємо вашу особисту інформацію та історію завантажень',
+                'features.types.title': 'VOD та Clips',
+                'features.types.text': 'Підтримуємо завантаження як Twitch Clips так і повних VOD записів',
+                'features.devices.title': 'На будь-яких пристроях',
+                'features.devices.text': 'Працює на ПК, ноутбуках, планшетах та мобільних телефонах',
+                'features.quality.title': 'Різні якості',
+                'features.quality.text': 'Вибирайте з кількох варіантів якості від 360p до 1080p та вище',
+                'features.free.title': '100% Безкоштовно',
+                'features.free.text': 'Повністю безкоштовний сервіс без прихованих платежів чи реєстрації',
+                'about.title': 'Про нас',
+                'about.text1': 'Ми - команда ентузіастів, які створили найкращий безкоштовний інструмент для завантаження контенту з Twitch. Наша мета - зробити процес завантаження VOD та кліпів максимально простим і зручним.',
+                'about.mission.title': 'Наша місія',
+                'about.mission.text': 'Надати користувачам можливість легко зберігати улюблені моменти зі стрімів без складних налаштувань та обмежень.',
+                'about.why.title': 'Чому ми?',
+                'about.why1': '100% безкоштовно без прихованих платежів',
+                'about.why2': 'Не потребує реєстрації',
+                'about.why3': 'Швидке завантаження у високій якості',
+                'about.why4': 'Підтримка як кліпів, так і повних VOD',
+                'about.why5': 'Регулярні оновлення та покращення',
+                'pageInstructions.title': 'Детальна інструкція',
+                'pageInstructions.step1.title': 'Крок 1: Знайдіть контент на Twitch',
+                'pageInstructions.step1.text': 'Перейдіть на Twitch.tv та знайдіть кліп або VOD, який хочете завантажити. Відкрийте його на окремій сторінці.',
+                'pageInstructions.step2.title': 'Крок 2: Скопіюйте посилання',
+                'pageInstructions.step2.text': 'Скопіюйте URL-адресу зі адресного рядка браузера. Посилання має виглядати як для кліпів або VOD.',
+                'pageInstructions.step3.title': 'Крок 3: Вставте посилання',
+                'pageInstructions.step3.text': 'Вставте скопійоване посилання в поле на головній сторінці нашого сайту та натисніть кнопку "Аналізувати".',
+                'pageInstructions.step4.title': 'Крок 4: Оберіть якість',
+                'pageInstructions.step4.text': 'Після аналізу з\'являться доступні варіанти якості відео. Оберіть потрібну якість.',
+                'pageInstructions.step5.title': 'Крок 5: Завантажте',
+                'pageInstructions.step5.text': 'Натисніть кнопку "Завантажити" біля обраної якості. Файл автоматично почне завантажуватися.',
+                'faq.title': 'Часті питання (FAQ)',
+                'faq.q1': 'Чи це безкоштовно?',
+                'faq.a1': 'Так, наш сервіс повністю безкоштовний. Ми не стягуємо плату за завантаження.',
+                'faq.q2': 'Чи потрібна реєстрація?',
+                'faq.a2': 'Ні, реєстрація не потрібна. Просто вставте посилання та завантажуйте.',
+                'faq.q3': 'Які формати відео підтримуються?',
+                'faq.a3': 'Ми завантажуємо відео у форматі MP4, який підтримується більшістю пристроїв.',
+                'faq.q4': 'Чому завантаження займає багато часу?',
+                'faq.a4': 'Час залежить від розміру файлу та швидкості вашого інтернету.',
+                'faq.q5': 'Що робити, якщо посилання не працює?',
+                'faq.a5': 'Переконайтеся, що посилання повне і відео доступне публічно.',
+                'contact.title': 'Контакти',
+                'contact.text1': 'Маєте питання, пропозиції або знайшли помилку в ClipsTwitch? Зв\'яжіться з нами!',
+                'contact.email.title': 'Email',
+                'contact.social.title': 'Соціальні мережі',
+                'footer.title': 'ClipsTwitch',
+                'footer.text': 'Найкращий безкоштовний інструмент для завантаження кліпів та VOD з Twitch.',
+                'footer.menu': 'Меню',
+                'footer.support': 'Підтримка',
+                'footer.help': 'Допомога',
+                'footer.faq': 'FAQ',
+                'footer.report': 'Повідомити про проблему'
+            },
+            en: {
+                'meta.title': 'ClipsTwitch',
+                'logo.title': 'ClipsTwitch',
+                'nav.home': 'Home',
+                'nav.about': 'About',
+                'nav.instructions': 'Guide',
+                'nav.faq': 'FAQ',
+                'nav.contact': 'Contacts',
+                'hero.title': 'Download Twitch VODs and Clips for Free',
+                'hero.subtitle': 'Just paste a Twitch VOD or clip link and choose the video quality you want to download',
+                'tab.clips': 'Clips',
+                'tab.vod': 'VOD',
+                'tab.both': 'Both',
+                'info.clips': 'Clips are short highlights from streams, usually up to 1 minute',
+                'info.vod': 'VODs are full stream recordings, from minutes to several hours',
+                'info.both': 'You can download both clips and VODs - the service detects the type automatically',
+                'download.title.clip': 'Download Twitch Clip',
+                'download.title.vod': 'Download Twitch VOD',
+                'download.title.both': 'Download Twitch Clip or VOD',
+                'download.placeholder': 'https://www.twitch.tv/streamer/clip/ExampleClipName or https://www.twitch.tv/videos/123456789',
+                'btn.analyze': 'Analyze',
+                'results.title': 'Available formats',
+                'btn.downloadAll': 'Download all',
+                'clip.title.placeholder': 'Content title will be here',
+                'clip.author': 'Author',
+                'clip.date': 'Date',
+                'clip.duration': 'Duration',
+                'clip.description.placeholder': 'Content description will be here',
+                'instructions.title': 'How to use:',
+                'instructions.step1': 'Choose content type (Clip, VOD or Both) using the buttons above',
+                'instructions.step2': 'Find required content on Twitch',
+                'instructions.step3': 'Copy the URL from the browser address bar',
+                'instructions.step4': 'Paste the link into the field above and click "Analyze"',
+                'instructions.step5': 'Choose the quality and click "Download"',
+                'features.title': 'Our advantages',
+                'features.fast.title': 'Fast and easy',
+                'features.fast.text': 'Instant downloading of clips and VODs without delays or limits',
+                'features.safe.title': 'Secure and private',
+                'features.safe.text': 'We do not store your personal data or download history',
+                'features.types.title': 'VODs and Clips',
+                'features.types.text': 'Supports downloading Twitch clips and full VOD recordings',
+                'features.devices.title': 'Any devices',
+                'features.devices.text': 'Works on PCs, laptops, tablets and smartphones',
+                'features.quality.title': 'Different qualities',
+                'features.quality.text': 'Choose from multiple quality options from 360p to 1080p and higher',
+                'features.free.title': '100% Free',
+                'features.free.text': 'Completely free service without hidden fees or registration',
+                'about.title': 'About us',
+                'about.text1': 'We are a small team that created a free tool for downloading content from Twitch. Our goal is to make downloading VODs and clips as simple as possible.',
+                'about.mission.title': 'Our mission',
+                'about.mission.text': 'Give users an easy way to save their favorite stream moments.',
+                'about.why.title': 'Why us?',
+                'about.why1': '100% free with no hidden payments',
+                'about.why2': 'No registration required',
+                'about.why3': 'Fast downloads in high quality',
+                'about.why4': 'Supports both clips and full VODs',
+                'about.why5': 'Regular updates and improvements',
+                'pageInstructions.title': 'Detailed guide',
+                'pageInstructions.step1.title': 'Step 1: Find content on Twitch',
+                'pageInstructions.step1.text': 'Go to Twitch.tv and open the clip or VOD you want to download.',
+                'pageInstructions.step2.title': 'Step 2: Copy the link',
+                'pageInstructions.step2.text': 'Copy the URL from the browser address bar. The link should look like for clips or VODs.',
+                'pageInstructions.step3.title': 'Step 3: Paste the link',
+                'pageInstructions.step3.text': 'Paste the copied link into the field on the main page and click "Analyze".',
+                'pageInstructions.step4.title': 'Step 4: Choose quality',
+                'pageInstructions.step4.text': 'After analysis, you will see available quality options. Select the one you need.',
+                'pageInstructions.step5.title': 'Step 5: Download',
+                'pageInstructions.step5.text': 'Click "Download" next to the chosen quality. The file will start downloading automatically.',
+                'faq.title': 'Frequently asked questions (FAQ)',
+                'faq.q1': 'Is it free?',
+                'faq.a1': 'Yes, our service is completely free. We do not charge for downloads.',
+                'faq.q2': 'Do I need to register?',
+                'faq.a2': 'No, registration is not required. Just paste the link and download.',
+                'faq.q3': 'Which video formats are supported?',
+                'faq.a3': 'Videos are downloaded in MP4 format, which is supported by most devices.',
+                'faq.q4': 'Why does download take a long time?',
+                'faq.a4': 'Time depends on the file size and your internet speed.',
+                'faq.q5': 'What if the link does not work?',
+                'faq.a5': 'Make sure the link is complete and the video is publicly available.',
+                'contact.title': 'Contacts',
+                'contact.text1': 'Have questions, suggestions or found a bug in ClipsTwitch? Contact us!',
+                'contact.email.title': 'Email',
+                'contact.social.title': 'Social networks',
+                'footer.title': 'ClipsTwitch',
+                'footer.text': 'The best free tool for downloading Twitch clips and VODs.',
+                'footer.menu': 'Menu',
+                'footer.support': 'Support',
+                'footer.help': 'Help',
+                'footer.faq': 'FAQ',
+                'footer.report': 'Report a problem'
             }
-            if (!url.includes('twitch.tv')) {
-                showError(currentLang === 'uk'
-                    ? 'Будь ласка, введіть дійсне посилання з twitch.tv'
-                    : 'Please enter a valid twitch.tv URL');
-                return;
+        };
+
+        let currentLang = localStorage.getItem('lang') || 'uk';
+
+        function applyTranslations() {
+            const dict = translations[currentLang];
+            document.documentElement.lang = currentLang;
+            
+            if (dict['meta.title']) {
+                document.title = dict['meta.title'];
             }
 
-            loadingSpinner.classList.add('show');
-            resultsSection.classList.remove('show');
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) {
+                    el.textContent = dict[key];
+                }
+            });
 
-            try {
-                const resp = await fetch('/api/analyze', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url })
-                });
-                const data = await resp.json();
-                loadingSpinner.classList.remove('show');
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (dict[key]) {
+                    el.placeholder = dict[key];
+                }
+            });
 
-                if (!data.success) {
-                    showError(data.error || (currentLang === 'uk' ? 'Помилка аналізу' : 'Analyze error'));
+            document.getElementById('lang-uk').classList.toggle('active', currentLang === 'uk');
+            document.getElementById('lang-en').classList.toggle('active', currentLang === 'en');
+        }
+
+        function setLang(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            applyTranslations();
+            updateTab(currentTab);
+        }
+
+        function showPage(pageName) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + pageName).classList.add('active');
+            
+            document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+            document.querySelectorAll(`nav a[data-page="${pageName}"]`).forEach(a => a.classList.add('active'));
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('mainNav').classList.remove('active');
+            document.getElementById('mobileMenuBtn').innerHTML = '<i class="fas fa-bars"></i>';
+        }
+
+        let currentTab = 'clips';
+
+        function updateTab(tabType) {
+            currentTab = tabType;
+            
+            clipsTab.classList.remove('active');
+            vodTab.classList.remove('active');
+            bothTab.classList.remove('active');
+            
+            contentTypeInfo.classList.add('show');
+            
+            if (tabType === 'clips') {
+                clipsTab.classList.add('active');
+                downloadTitle.textContent = translations[currentLang]['download.title.clip'];
+                contentTypeText.textContent = translations[currentLang]['info.clips'];
+            } else if (tabType === 'vod') {
+                vodTab.classList.add('active');
+                downloadTitle.textContent = translations[currentLang]['download.title.vod'];
+                contentTypeText.textContent = translations[currentLang]['info.vod'];
+            } else {
+                bothTab.classList.add('active');
+                downloadTitle.textContent = translations[currentLang]['download.title.both'];
+                contentTypeText.textContent = translations[currentLang]['info.both'];
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mainNav = document.getElementById('mainNav');
+
+            mobileMenuBtn.addEventListener('click', function() {
+                mainNav.classList.toggle('active');
+                mobileMenuBtn.innerHTML = mainNav.classList.contains('active') 
+                    ? '<i class="fas fa-times"></i>' 
+                    : '<i class="fas fa-bars"></i>';
+            });
+
+            window.clipsTab = document.getElementById('clipsTab');
+            window.vodTab = document.getElementById('vodTab');
+            window.bothTab = document.getElementById('bothTab');
+            window.contentTypeInfo = document.getElementById('contentTypeInfo');
+            window.contentTypeText = document.getElementById('contentTypeText');
+            window.downloadTitle = document.getElementById('downloadTitle');
+
+            const clipUrlInput = document.getElementById('clipUrl');
+
+            clipsTab.addEventListener('click', () => updateTab('clips'));
+            vodTab.addEventListener('click', () => updateTab('vod'));
+            bothTab.addEventListener('click', () => updateTab('both'));
+
+            const downloadBtn = document.getElementById('downloadBtn');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const resultsSection = document.getElementById('resultsSection');
+            const qualityOptions = document.getElementById('qualityOptions');
+            const downloadAllBtn = document.getElementById('downloadAllBtn');
+            const successMessage = document.getElementById('successMessage');
+            const successText = document.getElementById('successText');
+
+            const clipTitle = document.getElementById('clipTitle');
+            const clipAuthor = document.getElementById('clipAuthor');
+            const clipDate = document.getElementById('clipDate');
+            const clipDuration = document.getElementById('clipDuration');
+            const clipDescription = document.getElementById('clipDescription');
+
+            function showSuccessMessage(message) {
+                successText.textContent = message;
+                successMessage.classList.add('show');
+                setTimeout(() => {
+                    successMessage.classList.remove('show');
+                }, 4000);
+            }
+
+            function showError(msg) {
+                alert(msg);
+            }
+
+            downloadBtn.addEventListener('click', async function() {
+                const url = clipUrlInput.value.trim();
+                
+                if (!url) {
+                    showError(currentLang === 'uk' ? 'Будь ласка, введіть посилання на кліп або VOD' : 'Please enter a Twitch clip or VOD URL');
                     return;
                 }
 
-                const contentData = data.data;
-                clipTitle.textContent = contentData.title || translations[currentLang]['clip.title.placeholder'];
-                clipAuthor.textContent = contentData.author || contentData.broadcaster || translations[currentLang]['clip.author'];
-                clipDate.textContent = contentData.date || translations[currentLang]['clip.date'];
-                clipDuration.textContent = contentData.duration || translations[currentLang]['clip.duration'];
-                clipDescription.textContent = contentData.description || translations[currentLang]['clip.description.placeholder'];
+                if (!url.includes('twitch.tv')) {
+                    showError(currentLang === 'uk' ? 'Будь ласка, введіть правильне посилання з twitch.tv' : 'Please enter a valid twitch.tv URL');
+                    return;
+                }
 
-                qualityOptions.innerHTML = '';
-                (contentData.qualities || []).forEach(quality => {
-                    const qualityOption = document.createElement('div');
-                    qualityOption.className = 'quality-option';
-                    qualityOption.innerHTML = `
-                        <div class="quality-info">
-                            <div class="quality-name">${quality.name}</div>
-                            <div class="quality-size">${quality.size}</div>
-                        </div>
-                        <button class="download-btn">
-                            <i class="fas fa-download"></i> ${currentLang === 'uk' ? 'Завантажити' : 'Download'}
-                        </button>
-                    `;
-                    const btn = qualityOption.querySelector('.download-btn');
-                    btn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const form = document.createElement('form');
-                        form.method = 'POST';
-                        form.action = '/api/download';
-                        form.target = '_blank';
+                loadingSpinner.classList.add('show');
+                resultsSection.classList.remove('show');
 
-                        const urlInput = document.createElement('input');
-                        urlInput.type = 'hidden';
-                        urlInput.name = 'url';
-                        urlInput.value = url;
-                        form.appendChild(urlInput);
-
-                        const qualityInput = document.createElement('input');
-                        qualityInput.type = 'hidden';
-                        qualityInput.name = 'quality';
-                        qualityInput.value = quality.name;
-                        form.appendChild(qualityInput);
-
-                        document.body.appendChild(form);
-                        form.submit();
-                        document.body.removeChild(form);
-
-                        showSuccessMessage(
-                            (currentLang === 'uk'
-                                ? 'Завантаження '
-                                : 'Downloading ') + quality.name
-                            + (currentLang === 'uk'
-                                ? ' розпочато! Це може зайняти деякий час...'
-                                : ' started! It may take some time...')
-                        );
+                try {
+                    const resp = await fetch('/api/analyze', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ url })
                     });
-                    qualityOptions.appendChild(qualityOption);
-                });
 
-                resultsSection.classList.add('show');
-            } catch (err) {
-                loadingSpinner.classList.remove('show');
-                showError((currentLang === 'uk' ? 'Сталася помилка: ' : 'Error: ') + err.message);
-            }
-        });
+                    const data = await resp.json();
+                    loadingSpinner.classList.remove('show');
 
-        downloadAllBtn.addEventListener('click', function () {
-            const url = clipUrlInput.value.trim();
-            if (!url) {
-                showError(currentLang === 'uk'
-                    ? 'Спочатку проаналізуйте посилання'
-                    : 'Analyze the link first');
-                return;
-            }
+                    if (!data.success) {
+                        showError(data.error || (currentLang === 'uk' ? 'Помилка аналізу' : 'Analyze error'));
+                        return;
+                    }
 
-            const cards = qualityOptions.querySelectorAll('.quality-option');
-            if (!cards.length) {
-                showError(currentLang === 'uk'
-                    ? 'Немає доступних форматів для завантаження'
-                    : 'No available formats to download');
-                return;
-            }
+                    const contentData = data.data;
+                    
+                    clipTitle.textContent = contentData.title || translations[currentLang]['clip.title.placeholder'];
+                    clipAuthor.textContent = contentData.author || contentData.broadcaster || translations[currentLang]['clip.author'];
+                    clipDate.textContent = contentData.date || translations[currentLang]['clip.date'];
+                    clipDuration.textContent = contentData.duration || translations[currentLang]['clip.duration'];
+                    clipDescription.textContent = contentData.description || translations[currentLang]['clip.description.placeholder'];
 
-            cards.forEach((card, index) => {
-                setTimeout(() => {
-                    const btn = card.querySelector('.download-btn');
-                    btn.click();
-                }, index * 500);
+                    qualityOptions.innerHTML = '';
+
+                    contentData.qualities.forEach(quality => {
+                        const qualityOption = document.createElement('div');
+                        qualityOption.className = 'quality-option';
+                        qualityOption.innerHTML = `
+                            <div class="quality-info">
+                                <div class="quality-name">${quality.name}</div>
+                                <div class="quality-size">${quality.size}</div>
+                            </div>
+                            <button class="download-btn">
+                                <i class="fas fa-download"></i>
+                                ${currentLang === 'uk' ? 'Завантажити' : 'Download'}
+                            </button>
+                        `;
+
+                        const btn = qualityOption.querySelector('.download-btn');
+                        btn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            
+                            const form = document.createElement('form');
+                            form.method = 'POST';
+                            form.action = '/api/download';
+                            form.target = '_blank';
+                            
+                            const urlInput = document.createElement('input');
+                            urlInput.type = 'hidden';
+                            urlInput.name = 'url';
+                            urlInput.value = url;
+                            form.appendChild(urlInput);
+                            
+                            const qualityInput = document.createElement('input');
+                            qualityInput.type = 'hidden';
+                            qualityInput.name = 'quality';
+                            qualityInput.value = quality.id;  // ✅ ВИПРАВЛЕНО: використовуємо quality.id
+                            form.appendChild(qualityInput);
+                            
+                            document.body.appendChild(form);
+                            form.submit();
+                            document.body.removeChild(form);
+                            
+                            showSuccessMessage(
+                                currentLang === 'uk' 
+                                    ? `Завантаження ${quality.name} розпочато!` 
+                                    : `${quality.name} download started! It may take some time...`
+                            );
+                        });
+
+                        qualityOptions.appendChild(qualityOption);
+                    });
+
+                    resultsSection.classList.add('show');
+
+                } catch (err) {
+                    loadingSpinner.classList.remove('show');
+                    showError((currentLang === 'uk' ? 'Помилка: ' : 'Error: ') + err.message);
+                }
             });
 
-            showSuccessMessage(currentLang === 'uk'
-                ? 'Усі формати передані на завантаження!'
-                : 'All formats have been sent to download!');
+            downloadAllBtn.addEventListener('click', function() {
+                const url = clipUrlInput.value.trim();
+                if (!url) {
+                    showError(currentLang === 'uk' ? 'Спочатку проаналізуйте посилання' : 'Analyze the link first');
+                    return;
+                }
+
+                const cards = qualityOptions.querySelectorAll('.quality-option');
+                if (!cards.length) {
+                    showError(currentLang === 'uk' ? 'Немає доступних форматів для завантаження' : 'No available formats to download');
+                    return;
+                }
+
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        const btn = card.querySelector('.download-btn');
+                        btn.click();
+                    }, index * 500);
+                });
+
+                showSuccessMessage(
+                    currentLang === 'uk' 
+                        ? 'Всі формати відправлено на завантаження!' 
+                        : 'All formats have been sent to download!'
+                );
+            });
+
+            clipUrlInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    downloadBtn.click();
+                }
+            });
+
+            document.getElementById('lang-uk').addEventListener('click', () => setLang('uk'));
+            document.getElementById('lang-en').addEventListener('click', () => setLang('en'));
+
+            applyTranslations();
+            updateTab('clips');
         });
-
-        clipUrlInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') downloadBtn.click();
-        });
-
-        document.getElementById('lang-uk').addEventListener('click', () => setLang('uk'));
-        document.getElementById('lang-en').addEventListener('click', () => setLang('en'));
-
-        applyTranslations();
-        updateTab('clips');
-    });
-</script>
+    </script>
 </body>
 </html>
-
