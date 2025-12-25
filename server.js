@@ -65,44 +65,27 @@ function analyzeTwitch(url) {
   });
 }
 
-// ===== helper: сформувати список якостей =====
+// ===== helper: сформувати список якостей (ВИПРАВЛЕНА ВЕРСІЯ) =====
 function extractQualities(infoJson) {
-  // yt-dlp повертає або `formats`, або один формат
   const formats = infoJson.formats || [];
-  const qualities = [];
+  
+  // Беремо тільки формати з відео (vcodec !== 'none')
+  const videoFormats = formats.filter(f => 
+    f.vcodec && f.vcodec !== 'none' && f.height
+  );
 
-  for (const f of formats) {
-    if (!f.height && !f.abr) continue;
+  // Мапимо в структуру для фронту
+  const qualities = videoFormats.map(f => ({
+    id: f.format_id,
+    name: `${f.height}p${f.fps ? '@' + f.fps + 'fps' : ''}`,
+    size: f.filesize || f.filesize_approx
+      ? ((f.filesize || f.filesize_approx) / 1024 / 1024).toFixed(1) + ' MB'
+      : 'невідомо',
+  }));
 
-    let name = '';
-    if (f.vcodec && f.vcodec !== 'none') {
-      name = `${f.height || ''}p`;
-      if (f.fps) name += `@${f.fps}fps`;
-    } else if (f.acodec && f.acodec !== 'none') {
-      name = 'Audio';
-    } else {
-      continue;
-    }
-
-    const sizeMb = f.filesize || f.filesize_approx || 0;
-    const sizeStr = sizeMb
-      ? (sizeMb / 1024 / 1024).toFixed(1) + ' MB'
-      : 'розмір невідомий';
-
-    qualities.push({
-      id: f.format_id,
-      name,
-      size: sizeStr,
-    });
-  }
-
-  // якщо порожньо – хоча б один best
+  // Якщо нічого не знайшли, хоча б best
   if (!qualities.length) {
-    qualities.push({
-      id: 'best',
-      name: 'best',
-      size: 'невідомо',
-    });
+    qualities.push({ id: 'best', name: 'best', size: 'невідомо' });
   }
 
   return qualities;
@@ -228,4 +211,3 @@ app.get('*', (req, res) => {
 app.listen(PORT, () => {
   console.log('🚀 Server on http://localhost:' + PORT);
 });
-
