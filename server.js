@@ -18,196 +18,195 @@ app.use(express.static(path.join(__dirname, 'public')));
 // порт для Render / Fly
 const PORT = process.env.PORT || 3000;
 
-// імʼя програми yt-dlp (ставиться через `pip install yt-dlp` в Build Command)
+// ім'я програми yt-dlp (ставиться через `pip install yt-dlp` в Build Command)
 const YTDLP = 'yt-dlp';
 
-// ===== helper: аналіз Twitch‑посилання через yt-dlp =====
+// ===== helper: аналіз Twitch-посилання через yt-dlp =====
 function analyzeTwitch(url) {
-  return new Promise((resolve, reject) => {
-    const args = [
-      '-J',           // JSON meta
-      '--no-warnings',
-      url,
-    ];
+    return new Promise((resolve, reject) => {
+        const args = [
+            '-J', // JSON meta
+            '--no-warnings',
+            url,
+        ];
+        const child = spawn(YTDLP, args);
+        let json = '';
+        let err = '';
 
-    const child = spawn(YTDLP, args);
+        child.stdout.on('data', (d) => {
+            json += d.toString();
+        });
 
-    let json = '';
-    let err = '';
+        child.stderr.on('data', (d) => {
+            err += d.toString();
+            console.error('[yt-dlp analyze stderr]', d.toString());
+        });
 
-    child.stdout.on('data', (d) => {
-      json += d.toString();
+        child.on('error', (e) => {
+            console.error('[yt-dlp analyze error]', e);
+            reject(e);
+        });
+
+        child.on('close', (code) => {
+            if (code !== 0) {
+                return reject(
+                    new Error('yt-dlp exited with code ' + code + ' ' + err)
+                );
+            }
+
+            try {
+                const data = JSON.parse(json);
+                resolve(data);
+            } catch (e) {
+                reject(e);
+            }
+        });
     });
-
-    child.stderr.on('data', (d) => {
-      err += d.toString();
-      console.error('[yt-dlp analyze stderr]', d.toString());
-    });
-
-    child.on('error', (e) => {
-      console.error('[yt-dlp analyze error]', e);
-      reject(e);
-    });
-
-    child.on('close', (code) => {
-      if (code !== 0) {
-        return reject(
-          new Error('yt-dlp exited with code ' + code + ' ' + err)
-        );
-      }
-      try {
-        const data = JSON.parse(json);
-        resolve(data);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  });
 }
 
 // ===== helper: сформувати список якостей (ВИПРАВЛЕНА ВЕРСІЯ) =====
 function extractQualities(infoJson) {
-  const formats = infoJson.formats || [];
-  
-  // Беремо тільки формати з відео (vcodec !== 'none')
-  const videoFormats = formats.filter(f => 
-    f.vcodec && f.vcodec !== 'none' && f.height
-  );
+    const formats = infoJson.formats || [];
+    // Беремо тільки формати з відео (vcodec !== 'none')
+    const videoFormats = formats.filter(f =>
+        f.vcodec && f.vcodec !== 'none' && f.height
+    );
 
-  // Мапимо в структуру для фронту
-  const qualities = videoFormats.map(f => ({
-    id: f.format_id,
-    name: `${f.height}p${f.fps ? '@' + f.fps + 'fps' : ''}`,
-    size: f.filesize || f.filesize_approx
-      ? ((f.filesize || f.filesize_approx) / 1024 / 1024).toFixed(1) + ' MB'
-      : 'невідомо',
-  }));
+    // Мапимо в структуру для фронту
+    const qualities = videoFormats.map(f => ({
+        id: f.format_id,
+        name: `${f.height}p${f.fps ? '@' + f.fps + 'fps' : ''}`,
+        size: f.filesize || f.filesize_approx
+            ? ((f.filesize || f.filesize_approx) / 1024 / 1024).toFixed(1) + ' MB'
+            : 'невідомо',
+    }));
 
-  // Якщо нічого не знайшли, хоча б best
-  if (!qualities.length) {
-    qualities.push({ id: 'best', name: 'best', size: 'невідомо' });
-  }
+    // Якщо нічого не знайшли, хоча б best
+    if (!qualities.length) {
+        qualities.push({ id: 'best', name: 'best', size: 'невідомо' });
+    }
 
-  return qualities;
+    return qualities;
 }
 
 // ===== /api/analyze =====
 app.post('/api/analyze', async (req, res) => {
-  try {
-    const { url } = req.body || {};
-    if (!url || typeof url !== 'string') {
-      return res.status(400).json({
-        success: false,
-        error: 'No URL',
-      });
+    try {
+        const { url } = req.body || {};
+        if (!url || typeof url !== 'string') {
+            return res.status(400).json({
+                success: false,
+                error: 'No URL',
+            });
+        }
+
+        const info = await analyzeTwitch(url);
+        
+        // Отримати thumbnail
+        const thumbnail = info.thumbnail || info.thumbnails?.[0]?.url || '';
+        
+        const data = {
+            title: info.title || '',
+            author:
+                (info.uploader || info.channel || info.author || '').toString(),
+            broadcaster: info.channel || '',
+            date: info.upload_date || info.release_date || '',
+            duration: info.duration
+                ? Math.round(info.duration) + ' сек.'
+                : '',
+            description: info.description || '',
+            thumbnail: thumbnail, // ⬅️ ДОДАНО THUMBNAIL
+            qualities: extractQualities(info),
+        };
+
+        res.json({ success: true, data });
+    } catch (e) {
+        console.error('/api/analyze error', e);
+        res.status(500).json({
+            success: false,
+            error: 'Analyze failed: ' + e.message,
+        });
     }
-
-    const info = await analyzeTwitch(url);
-
-    const data = {
-      title: info.title || '',
-      author:
-        (info.uploader || info.channel || info.author || '').toString(),
-      broadcaster: info.channel || '',
-      date: info.upload_date || info.release_date || '',
-      duration: info.duration
-        ? Math.round(info.duration) + ' сек.'
-        : '',
-      description: info.description || '',
-      qualities: extractQualities(info),
-    };
-
-    res.json({ success: true, data });
-  } catch (e) {
-    console.error('/api/analyze error', e);
-    res.status(500).json({
-      success: false,
-      error: 'Analyze failed: ' + e.message,
-    });
-  }
 });
 
 // ===== helper: запуск yt-dlp для завантаження =====
 function streamDownload(url, formatId, res) {
-  const args = [
-    '-f',
-    formatId || 'best',
-    '-o',
-    '-',       // виводити в stdout
-    url,
-  ];
+    const args = [
+        '-f',
+        formatId || 'best',
+        '-o',
+        '-', // виводити в stdout
+        url,
+    ];
+    const child = spawn(YTDLP, args);
 
-  const child = spawn(YTDLP, args);
+    child.stdout.on('data', (chunk) => {
+        res.write(chunk);
+    });
 
-  child.stdout.on('data', (chunk) => {
-    res.write(chunk);
-  });
+    child.stderr.on('data', (d) => {
+        console.error('[yt-dlp download stderr]', d.toString());
+    });
 
-  child.stderr.on('data', (d) => {
-    console.error('[yt-dlp download stderr]', d.toString());
-  });
+    child.on('error', (err) => {
+        console.error('[yt-dlp download error]', err);
+        if (!res.headersSent) {
+            res.status(500).end('Download error');
+        } else {
+            res.end();
+        }
+    });
 
-  child.on('error', (err) => {
-    console.error('[yt-dlp download error]', err);
-    if (!res.headersSent) {
-      res.status(500).end('Download error');
-    } else {
-      res.end();
-    }
-  });
-
-  child.on('close', (code) => {
-    if (code !== 0) {
-      console.error('yt-dlp exited with code', code);
-      if (!res.headersSent) {
-        res.status(500).end('yt-dlp failed with code ' + code);
-      } else {
-        res.end();
-      }
-    } else {
-      res.end();
-    }
-  });
+    child.on('close', (code) => {
+        if (code !== 0) {
+            console.error('yt-dlp exited with code', code);
+            if (!res.headersSent) {
+                res.status(500).end('yt-dlp failed with code ' + code);
+            } else {
+                res.end();
+            }
+        } else {
+            res.end();
+        }
+    });
 }
 
 // ===== /api/download =====
 app.post('/api/download', (req, res) => {
-  try {
-    const { url, quality } = req.body || {};
+    try {
+        const { url, quality } = req.body || {};
+        if (!url || typeof url !== 'string') {
+            return res.status(400).json({
+                success: false,
+                error: 'No URL',
+            });
+        }
 
-    if (!url || typeof url !== 'string') {
-      return res.status(400).json({
-        success: false,
-        error: 'No URL',
-      });
+        const formatId = quality || 'best';
+        // заголовки для завантаження файлу
+        res.setHeader('Content-Type', 'video/mp4');
+        res.setHeader(
+            'Content-Disposition',
+            `attachment; filename="twitch_${formatId}.mp4"`
+        );
+
+        streamDownload(url, formatId, res);
+    } catch (e) {
+        console.error('/api/download error', e);
+        if (!res.headersSent) {
+            res.status(500).end('Download error: ' + e.message);
+        } else {
+            res.end();
+        }
     }
-
-    const formatId = quality || 'best';
-
-    // заголовки для завантаження файлу
-    res.setHeader('Content-Type', 'video/mp4');
-    res.setHeader(
-      'Content-Disposition',
-      `attachment; filename="twitch_${formatId}.mp4"`
-    );
-
-    streamDownload(url, formatId, res);
-  } catch (e) {
-    console.error('/api/download error', e);
-    if (!res.headersSent) {
-      res.status(500).end('Download error: ' + e.message);
-    } else {
-      res.end();
-    }
-  }
 });
 
 // ===== все решта віддаємо index.html (SPA) =====
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // ===== старт сервера =====
 app.listen(PORT, () => {
-  console.log('🚀 Server on http://localhost:' + PORT);
+    console.log('🚀 Server on http://localhost:' + PORT);
 });

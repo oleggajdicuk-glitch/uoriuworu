@@ -430,6 +430,22 @@
             font-size: 40px;
             color: white;
             flex-shrink: 0;
+            position: relative;
+        }
+
+        .clip-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .clip-thumbnail i {
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
         .clip-details {
@@ -892,7 +908,8 @@
 
                     <div class="clip-info">
                         <div class="clip-thumbnail">
-                            <i class="fas fa-play-circle"></i>
+                            <img id="clipThumbnail" src="" alt="Thumbnail" style="display: none;">
+                            <i class="fas fa-play-circle" id="clipThumbnailIcon"></i>
                         </div>
                         <div class="clip-details">
                             <h4 class="clip-title" id="clipTitle" data-i18n="clip.title.placeholder"></h4>
@@ -1404,6 +1421,19 @@
                     clipDuration.textContent = contentData.duration || translations[currentLang]['clip.duration'];
                     clipDescription.textContent = contentData.description || translations[currentLang]['clip.description.placeholder'];
 
+                    // ⬇️ ДОДАНО: Показати thumbnail
+                    const clipThumbnailImg = document.getElementById('clipThumbnail');
+                    const clipThumbnailIcon = document.getElementById('clipThumbnailIcon');
+
+                    if (contentData.thumbnail) {
+                        clipThumbnailImg.src = contentData.thumbnail;
+                        clipThumbnailImg.style.display = 'block';
+                        clipThumbnailIcon.style.display = 'none';
+                    } else {
+                        clipThumbnailImg.style.display = 'none';
+                        clipThumbnailIcon.style.display = 'block';
+                    }
+
                     qualityOptions.innerHTML = '';
 
                     contentData.qualities.forEach(quality => {
@@ -1448,7 +1478,7 @@
                             showSuccessMessage(
                                 currentLang === 'uk' 
                                     ? `Завантаження ${quality.name} розпочато!` 
-                                    : `${quality.name} download started! It may take some time...`
+                                    : `${quality.name} download started!`
                             );
                         });
 
