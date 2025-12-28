@@ -1,13 +1,52 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
+    <!-- Basic Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="meta.title">ClipsTwitch</title>
-    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO Meta Tags -->
+    <title>ClipsTwitch - Завантажуйте кліпи та VOD з Twitch безкоштовно | Скачати відео з твіч</title>
+    <meta name="description" content="Безкоштовне завантаження кліпів та VOD з Twitch у високій якості. Скачати відео з твіч від 160p до 1080p. Без реєстрації, швидко та безпечно.">
+    <meta name="keywords" content="twitch downloader, twitch clip downloader, twitch vod downloader, скачать клип twitch, скачать vod twitch, завантажити кліп твіч, завантажити vod твіч, скачати відео з твіч, скачати відео з twitch, скачати кліп твіч, скачати стрім твіч, download twitch clips, download twitch vods, twitch video downloader">
+    <meta name="author" content="ClipsTwitch">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="Ukrainian">
+    <meta name="revisit-after" content="7 days">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://uoriuworu.onrender.com">
+    <meta property="og:title" content="ClipsTwitch - Скачати відео з твіч безкоштовно">
+    <meta property="og:description" content="Найкращий безкоштовний інструмент для завантаження Twitch контенту у високій якості. Скачати відео з твіч, VOD та кліпи від 160p до 1080p.">
+    <meta property="og:image" content="https://uoriuworu.onrender.com/favicon.png">
+    <meta property="og:site_name" content="ClipsTwitch">
+    <meta property="og:locale" content="uk_UA">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://uoriuworu.onrender.com">
+    <meta name="twitter:title" content="ClipsTwitch - Скачати відео з твіч">
+    <meta name="twitter:description" content="Безкоштовне завантаження Twitch контенту у високій якості. Скачати відео з твіч без реєстрації.">
+    <meta name="twitter:image" content="https://uoriuworu.onrender.com/favicon.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://uoriuworu.onrender.com">
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="shortcut icon" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#9146ff">
+    <meta name="msapplication-TileColor" content="#9146ff">
+
+    <!-- Additional SEO -->
+    <meta name="rating" content="general">
+    <meta name="distribution" content="global">
+    <meta name="coverage" content="Worldwide">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -757,7 +796,7 @@
 <body>
     <header>
         <div class="container header-content">
-            <div class="logo" onclick="showPage('home')" data-i18n="logo.title">
+            <div class="logo" onclick="showPage('home')">
                 <i class="fab fa-twitch"></i>
                 ClipsTwitch
             </div>
@@ -788,7 +827,7 @@
         <!-- HOME -->
         <div id="page-home" class="page active">
             <section class="hero">
-                <h1 data-i18n="hero.title">Завантажуйте VOD та кліпи з Twitch безкоштовно</h1>
+                <h1 data-i18n="hero.title">Скачати відео з твіч безкоштовно - VOD та кліпи</h1>
                 <p data-i18n="hero.subtitle">Просто вставте посилання на VOD або кліп з Twitch та оберіть бажану якість відео для завантаження</p>
             </section>
 
@@ -1018,14 +1057,14 @@
     <script>
         const translations = {
             uk: {
-                'meta.title': 'ClipsTwitch',
+                'meta.title': 'ClipsTwitch - Скачати відео з твіч безкоштовно',
                 'logo.title': 'ClipsTwitch',
                 'nav.home': 'Головна',
                 'nav.about': 'Про нас',
                 'nav.instructions': 'Інструкція',
                 'nav.faq': 'FAQ',
                 'nav.contact': 'Контакти',
-                'hero.title': 'Завантажуйте VOD та кліпи з Twitch безкоштовно',
+                'hero.title': 'Скачати відео з твіч безкоштовно - VOD та кліпи',
                 'hero.subtitle': 'Просто вставте посилання на VOD або кліп з Twitch та оберіть бажану якість відео для завантаження',
                 'tab.clips': 'Кліпи',
                 'tab.vod': 'VOD',
@@ -1109,14 +1148,14 @@
                 'footer.report': 'Повідомити про проблему'
             },
             en: {
-                'meta.title': 'ClipsTwitch',
+                'meta.title': 'ClipsTwitch - Download Twitch Videos Free',
                 'logo.title': 'ClipsTwitch',
                 'nav.home': 'Home',
                 'nav.about': 'About',
                 'nav.instructions': 'Guide',
                 'nav.faq': 'FAQ',
                 'nav.contact': 'Contacts',
-                'hero.title': 'Download Twitch VODs and Clips for Free',
+                'hero.title': 'Download Twitch Videos for Free - VODs and Clips',
                 'hero.subtitle': 'Just paste a Twitch VOD or clip link and choose the video quality you want to download',
                 'tab.clips': 'Clips',
                 'tab.vod': 'VOD',
@@ -1397,7 +1436,7 @@
                             const qualityInput = document.createElement('input');
                             qualityInput.type = 'hidden';
                             qualityInput.name = 'quality';
-                            qualityInput.value = quality.id;  // ✅ ВИПРАВЛЕНО: використовуємо quality.id
+                            qualityInput.value = quality.id;
                             form.appendChild(qualityInput);
                             
                             document.body.appendChild(form);
