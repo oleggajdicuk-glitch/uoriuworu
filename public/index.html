@@ -20,7 +20,10 @@
     <meta property="og:url" content="https://uoriuworu.onrender.com">
     <meta property="og:title" content="ClipsTwitch - Скачати відео з твіч безкоштовно">
     <meta property="og:description" content="Найкращий безкоштовний інструмент для завантаження Twitch контенту у високій якості. Скачати відео з твіч, VOD та кліпи від 160p до 1080p.">
-    <meta property="og:image" content="https://uoriuworu.onrender.com/favicon.png">
+    <meta property="og:image" content="https://uoriuworu.onrender.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="ClipsTwitch - Скачати відео з твіч безкоштовно">
     <meta property="og:site_name" content="ClipsTwitch">
     <meta property="og:locale" content="uk_UA">
 
@@ -29,7 +32,7 @@
     <meta name="twitter:url" content="https://uoriuworu.onrender.com">
     <meta name="twitter:title" content="ClipsTwitch - Скачати відео з твіч">
     <meta name="twitter:description" content="Безкоштовне завантаження Twitch контенту у високій якості. Скачати відео з твіч без реєстрації.">
-    <meta name="twitter:image" content="https://uoriuworu.onrender.com/favicon.png">
+    <meta name="twitter:image" content="https://uoriuworu.onrender.com/og-image.png">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://uoriuworu.onrender.com">
@@ -606,6 +609,16 @@
             margin-bottom: 20px;
         }
 
+        .content-section a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .content-section a:hover {
+            color: var(--primary);
+        }
+
         .content-section ul {
             list-style: none;
             padding-left: 0;
@@ -1002,13 +1015,7 @@
                 <h2 data-i18n="contact.title"></h2>
                 <p data-i18n="contact.text1"></p>
                 <h3 data-i18n="contact.email.title">Email</h3>
-                <p><i class="fas fa-envelope"></i> support@twitchvod.pro</p>
-                <h3 data-i18n="contact.social.title"></h3>
-                <p>
-                    <i class="fab fa-twitter"></i> Twitter: @ClipsTwitch<br>
-                    <i class="fab fa-telegram"></i> Telegram: @ClipsTwitchSupport<br>
-                    <i class="fab fa-github"></i> GitHub: github.com/clipstwitch
-                </p>
+                <p><i class="fas fa-envelope"></i> <a href="mailto:support@twitchvod.pro">support@twitchvod.pro</a></p>
             </div>
         </div>
     </main>
@@ -1041,10 +1048,7 @@
                 <div class="footer-column">
                     <h3 data-i18n="contact.title"></h3>
                     <ul>
-                        <li><i class="fas fa-envelope"></i> support@twitchvod.pro</li>
-                        <li><i class="fab fa-twitter"></i> Twitter</li>
-                        <li><i class="fab fa-telegram"></i> Telegram</li>
-                        <li><i class="fab fa-github"></i> GitHub</li>
+                        <li><i class="fas fa-envelope"></i> <a href="mailto:support@twitchvod.pro">support@twitchvod.pro</a></li>
                     </ul>
                 </div>
             </div>
@@ -1138,7 +1142,6 @@
                 'contact.title': 'Контакти',
                 'contact.text1': 'Маєте питання, пропозиції або знайшли помилку в ClipsTwitch? Зв\'яжіться з нами!',
                 'contact.email.title': 'Email',
-                'contact.social.title': 'Соціальні мережі',
                 'footer.title': 'ClipsTwitch',
                 'footer.text': 'Найкращий безкоштовний інструмент для завантаження кліпів та VOD з Twitch.',
                 'footer.menu': 'Меню',
@@ -1229,7 +1232,6 @@
                 'contact.title': 'Contacts',
                 'contact.text1': 'Have questions, suggestions or found a bug in ClipsTwitch? Contact us!',
                 'contact.email.title': 'Email',
-                'contact.social.title': 'Social networks',
                 'footer.title': 'ClipsTwitch',
                 'footer.text': 'The best free tool for downloading Twitch clips and VODs.',
                 'footer.menu': 'Menu',
